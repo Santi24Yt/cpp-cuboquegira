@@ -1,0 +1,8 @@
+-I./include/
+-lsfml-system
+-lsfml-window
+-lsfml-graphics
+-Wall
+-Werror
+-xc++
+-std=c++11
