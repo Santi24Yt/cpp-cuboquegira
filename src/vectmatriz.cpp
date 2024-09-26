@@ -121,6 +121,11 @@ Matrix3 Matrix3::adjoint() const {
   * @return Copia de la matriz actual.
   */
 Matrix3 Matrix3::clone() const {
+  return Matrix3(
+    a00, a01, a02,
+    a10, a11, a12,
+    a20, a21, a22
+  );
 }
 
 /**
@@ -151,6 +156,7 @@ Matrix3 Matrix3::invert() const {
 Vector3 Matrix3::multiplyVector(const Vector3 &v) const {
 }
 
+// TODO: Argumentos??
 /**
   * @brief Asigna nuevos valores a la matriz.
   * @param a00 Elemento en la posición (0,0).
@@ -187,6 +193,12 @@ Matrix4 Matrix4::adjoint() const {
   * @return Matrix4 Copia del objeto actual.
   */
 Matrix4 Matrix4::clone() const {
+  return Matrix4(
+    a00, a01, a02, a03,
+    a10, a11, a12, a13,
+    a20, a21, a22, a23,
+    a30, a31, a32, a33
+  );
 }
 
 /**
@@ -196,6 +208,7 @@ Matrix4 Matrix4::clone() const {
 double Matrix4::determinant() const {
 }
 
+// TODO: Duplicado??
 /**
   * @brief Multiplica la matriz por un escalar.
   * @param scalar Escalar por el cual multiplicar la matriz.
@@ -227,6 +240,7 @@ Matrix4& Matrix4::identity() {
 Vector4 Matrix4::multiplyVector(const Vector4 &v) const {
 }
 
+// TODO: Sin argumentos???
 /**
   * @brief Establece nuevos valores para los elementos de la matriz.
   * @param a00 Valor para el elemento (0,0).

@@ -1,6 +1,8 @@
 #ifndef VECMATRIZ_H
 #define VECMATRIZ_H
 
+#include <cmath>
+
 /**
  * @class Vector3
  * @brief La clase Vector3 representa vectores de tres componentes (x, y, z).
@@ -59,6 +61,11 @@ class Vector3 {
    * @return Distancia euclidiana entre los vectores.
    */
   static double distance(const Vector3& u, const Vector3& v) {
+    return sqrt(
+      pow(v.x - u.x, 2) +
+      pow(v.y - u.y, 2) +
+      pow(v.z - u.z, 2)
+    );
   }
 
   /**
@@ -68,6 +75,7 @@ class Vector3 {
    * @return Producto punto de los vectores.
    */
   static double dot(const Vector3& u, const Vector3& v) {
+    return (u.x * v.x) + (u.y * v.y) + (u.z * v.z);
   }
 
   /**
@@ -87,6 +95,7 @@ class Vector3 {
    * @return Verdadero si los vectores son exactamente iguales.
    */
   static bool exactEquals(const Vector3& u, const Vector3& v) {
+    return u.x == v.x && u.y == v.y && u.z == v.z;
   }
 
   /**
@@ -110,6 +119,7 @@ class Vector3 {
    * @return Vector resultante de la resta.
    */
   static Vector3 subtract(const Vector3& u, const Vector3& v) {
+    return Vector3(u.x - v.x, u.y - v.y, u.z - v.z);
   }
 
   /**
@@ -119,6 +129,7 @@ class Vector3 {
    * @return Distancia euclidiana al cuadrado entre los vectores.
    */
   static double squaredDistance(const Vector3& u, const Vector3& v) {
+    return pow(Vector3::distance(u, v), 2);
   }
 
   /**
@@ -162,6 +173,7 @@ class Vector4 {
    * @return Vector4 Resultado de la suma de u y v.
    */
   static Vector4 add(const Vector4& u, const Vector4& v) {
+    return Vector4(u.x + v.x, u.y + v.y, u.z + v.z, u.w + v.w);
   }
 
   /**
@@ -177,6 +189,12 @@ class Vector4 {
    * @return double Distancia euclidiana entre u y v.
    */
   static double distance(const Vector4& u, const Vector4& v) {
+    return sqrt(
+      pow(v.x - u.x, 2) +
+      pow(v.y - u.y, 2) +
+      pow(v.z - u.z, 2) +
+      pow(v.w - u.w, 2)
+    );
   }
 
   /**
@@ -186,6 +204,7 @@ class Vector4 {
    * @return double Producto punto de u y v.
    */
   static double dot(const Vector4& u, const Vector4& v) {
+    return (u.x * v.x) + (u.y * v.y) + (u.z * v.z) + (u.w + v.w);
   }
 
   /**
@@ -205,6 +224,7 @@ class Vector4 {
    * @return bool True si los vectores son exactamente iguales, false en caso contrario.
    */
   static bool exactEquals(const Vector4& u, const Vector4& v) {
+    return u.x == v.x && u.y == v.y && u.z == v.z && u.w == v.w;
   }
 
   /**
@@ -229,6 +249,7 @@ class Vector4 {
    * @return Vector4 Resultado de la resta de u y v.
    */
   static Vector4 subtract(const Vector4& u, const Vector4& v) {
+    return Vector4(u.x - v.x, u.y - v.y, u.z - v.z, u.w - v.w);
   }
 
   /**
@@ -238,6 +259,7 @@ class Vector4 {
    * @return double Distancia euclidiana al cuadrado entre u y v.
    */
   static double squaredDistance(const Vector4& u, const Vector4& v) {
+    return pow(Vector4::distance(u, v), 2);
   }
 
   /**
@@ -260,19 +282,28 @@ class Matrix3
 
   /**
    * @brief Constructor por defecto.
-   * @param a00 Elemento en la posición (0,0). Valor por defecto es 1.
-   * @param a01 Elemento en la posición (0,1). Valor por defecto es 0.
-   * @param a02 Elemento en la posición (0,2). Valor por defecto es 0.
-   * @param a10 Elemento en la posición (1,0). Valor por defecto es 0.
-   * @param a11 Elemento en la posición (1,1). Valor por defecto es 1.
-   * @param a12 Elemento en la posición (1,2). Valor por defecto es 0.
-   * @param a20 Elemento en la posición (2,0). Valor por defecto es 0.
-   * @param a21 Elemento en la posición (2,1). Valor por defecto es 0.
-   * @param a22 Elemento en la posición (2,2). Valor por defecto es 1.
+   * @param a00 Elemento en la posición (0,0). Valor por defecto es 1.0.
+   * @param a01 Elemento en la posición (0,1). Valor por defecto es 0.0.
+   * @param a02 Elemento en la posición (0,2). Valor por defecto es 0.0.
+   * @param a10 Elemento en la posición (1,0). Valor por defecto es 0.0.
+   * @param a11 Elemento en la posición (1,1). Valor por defecto es 1.0.
+   * @param a12 Elemento en la posición (1,2). Valor por defecto es 0.0.
+   * @param a20 Elemento en la posición (2,0). Valor por defecto es 0.0.
+   * @param a21 Elemento en la posición (2,1). Valor por defecto es 0.0.
+   * @param a22 Elemento en la posición (2,2). Valor por defecto es 1.0.
    */
-  Matrix3(double a00 = 1, double a01 = 0, double a02 = 0,
-          double a10 = 0, double a11 = 1, double a12 = 0,
-          double a20 = 0, double a21 = 0, double a22 = 1);
+  Matrix3(double a00 = 1.0, double a01 = 0.0, double a02 = 0.0,
+          double a10 = 0.0, double a11 = 1.0, double a12 = 0.0,
+          double a20 = 0.0, double a21 = 0.0, double a22 = 1.0) 
+        :
+          a00(a00), a01(a01), a02(a02),
+          a10(a10), a11(a11), a12(a12),
+          a20(a20), a21(a21), a22(a22)
+  {
+    // this->a00 = a00; this->a01 = a01; this->a02 = a02;
+    // this->a10 = a10; this->a11 = a11; this->a12 = a12;
+    // this->a20 = a20; this->a21 = a21; this->a22 = a22;
+  }
 
   /**
    * @brief Suma de dos matrices.
@@ -281,6 +312,11 @@ class Matrix3
    * @return Matriz resultante de la suma.
    */
   static Matrix3 add(const Matrix3& m1, const Matrix3& m2) {
+    return Matrix3(
+      m1.a00 + m2.a00, m1.a01 + m2.a01, m1.a02 + m2.a02,
+      m1.a10 + m2.a10, m1.a11 + m2.a11, m1.a12 + m2.a12,
+      m1.a20 + m2.a20, m1.a21 + m2.a21, m1.a22 + m2.a22
+    );
   }
 
   /**
@@ -311,6 +347,7 @@ class Matrix3
   static bool equalsWithE(const Matrix3& m1, const Matrix3& m2, double e) {
   }
 
+  // TODO: Duplicado con exact equals?
   /**
    * @brief Compara dos matrices con un epsilon predeterminado.
    * @param m1 Primera matriz.
@@ -318,6 +355,10 @@ class Matrix3
    * @return Verdadero si las matrices son aproximadamente iguales.
    */
   static bool equals(const Matrix3& m1, const Matrix3& m2) {
+    return 
+      m1.a00 == m2.a00 && m1.a01 == m2.a01 && m1.a02 == m2.a02 &&
+      m1.a10 == m2.a10 && m1.a11 == m2.a11 && m1.a12 == m2.a12 &&
+      m1.a20 == m2.a20 && m1.a21 == m2.a21 && m1.a22 == m2.a22;
   }
 
   /**
@@ -327,6 +368,10 @@ class Matrix3
    * @return Verdadero si las matrices son exactamente iguales.
    */
   static bool exactEquals(const Matrix3& m1, const Matrix3& m2) {
+    return 
+      m1.a00 == m2.a00 && m1.a01 == m2.a01 && m1.a02 == m2.a02 &&
+      m1.a10 == m2.a10 && m1.a11 == m2.a11 && m1.a12 == m2.a12 &&
+      m1.a20 == m2.a20 && m1.a21 == m2.a21 && m1.a22 == m2.a22;
   }
 
   /**
@@ -356,6 +401,11 @@ class Matrix3
    * @return Matriz resultante de la multiplicación por el escalar.
    */
   static Matrix3 multiplyScalar(const Matrix3& m1, double c) {
+    return Matrix3(
+      m1.a00 * c, m1.a01 * c, m1.a02 * c,
+      m1.a10 * c, m1.a11 * c, m1.a12 * c,
+      m1.a20 * c, m1.a21 * c, m1.a22 * c
+    );
   }
 
   /**
@@ -403,6 +453,11 @@ class Matrix3
    * @return Matriz resultante de la resta.
    */
   static Matrix3 subtract(const Matrix3& m1, const Matrix3& m2) {
+    return Matrix3(
+      m1.a00 - m2.a00, m1.a01 - m2.a01, m1.a02 - m2.a02,
+      m1.a10 - m2.a10, m1.a11 - m2.a11, m1.a12 - m2.a12,
+      m1.a20 - m2.a20, m1.a21 - m2.a21, m1.a22 - m2.a22
+    );
   }
 
   /**
@@ -454,10 +509,21 @@ class Matrix4
    * @param a33 Valor para el elemento (3,3).
    */
   Matrix4(
-      double a00 = 1, double a01 = 0, double a02 = 0, double a03 = 0,
-      double a10 = 0, double a11 = 1, double a12 = 0, double a13 = 0,
-      double a20 = 0, double a21 = 0, double a22 = 1, double a23 = 0,
-      double a30 = 0, double a31 = 0, double a32 = 0, double a33 = 1);
+      double a00 = 1.0, double a01 = 0.0, double a02 = 0.0, double a03 = 0.0,
+      double a10 = 0.0, double a11 = 1.0, double a12 = 0.0, double a13 = 0.0,
+      double a20 = 0.0, double a21 = 0.0, double a22 = 1.0, double a23 = 0.0,
+      double a30 = 0.0, double a31 = 0.0, double a32 = 0.0, double a33 = 1.0)
+    :
+      a00(a00), a01(a01), a02(a02), a03(a03),
+      a10(a10), a11(a11), a12(a12), a13(a13),
+      a20(a20), a21(a21), a22(a22), a23(a23),
+      a30(a30), a31(a31), a32(a32), a33(a33)
+  {
+    // this->a00 = a00; this->a01 = a01; this->a02 = a02; this->a03 = a03;
+    // this->a10 = a10; this->a11 = a11; this->a12 = a12; this->a13 = a13;
+    // this->a20 = a20; this->a21 = a21; this->a22 = a22; this->a23 = a23;
+    // this->a30 = a30; this->a31 = a31; this->a32 = a32; this->a33 = a33;
+  }
 
   /**
    * @brief Devuelve la suma de dos matrices.
@@ -466,6 +532,12 @@ class Matrix4
    * @return Matrix4 Resultado de la suma de m1 y m2.
    */
   static Matrix4 add(const Matrix4& m1, const Matrix4& m2) {
+    return Matrix4(
+      m1.a00 + m2.a00, m1.a01 + m2.a01, m1.a02 + m2.a02, m1.a03 + m2.a03,
+      m1.a10 + m2.a10, m1.a11 + m2.a11, m1.a12 + m2.a12, m1.a13 + m2.a13,
+      m1.a20 + m2.a20, m1.a21 + m2.a21, m1.a22 + m2.a22, m1.a23 + m2.a23,
+      m1.a30 + m2.a30, m1.a31 + m2.a31, m1.a32 + m2.a32, m1.a33 + m2.a33
+    );
   }
 
   /**
@@ -532,6 +604,12 @@ class Matrix4
    * @return Matrix4 Resultado de la multiplicación por el escalar.
    */
   static Matrix4 multiplyScalar(const Matrix4& m1, double c) {
+    return Matrix4(
+      m1.a00 * c, m1.a01 * c, m1.a02 * c, m1.a03 * c,
+      m1.a10 * c, m1.a11 * c, m1.a12 * c, m1.a13 * c,
+      m1.a20 * c, m1.a21 * c, m1.a22 * c, m1.a23 * c,
+      m1.a30 * c, m1.a31 * c, m1.a32 * c, m1.a33 * c
+    );
   }
 
   /**
@@ -570,6 +648,12 @@ class Matrix4
    * @return Matrix4 Resultado de la resta de m1 y m2.
    */
   static Matrix4 subtract(const Matrix4& m1, const Matrix4& m2) {
+    return Matrix4(
+      m1.a00 - m2.a00, m1.a01 - m2.a01, m1.a02 - m2.a02, m1.a03 - m2.a03,
+      m1.a10 - m2.a10, m1.a11 - m2.a11, m1.a12 - m2.a12, m1.a13 - m2.a13,
+      m1.a20 - m2.a20, m1.a21 - m2.a21, m1.a22 - m2.a22, m1.a23 - m2.a23,
+      m1.a30 - m2.a30, m1.a31 - m2.a31, m1.a32 - m2.a32, m1.a33 - m2.a33
+    );
   }
 
   /**
