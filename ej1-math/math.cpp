@@ -7,16 +7,23 @@ using namespace std;
  * @class Vector3
  * @brief La clase Vector3 representa vectores de tres componentes (x, y, z).
  */
-class Vector3
-{
-public:
+class Vector3 {
+  private:
+  double x, y, z;
+
+  public:
   /**
    * @brief Constructor por defecto.
    * @param x Componente x del vector. Valor por defecto es 0.0.
    * @param y Componente y del vector. Valor por defecto es 0.0.
    * @param z Componente z del vector. Valor por defecto es 0.0.
    */
-  Vector3(double x = 0.0, double y = 0.0, double z = 0.0);
+  Vector3(double x = 0.0, double y = 0.0, double z = 0.0) : x(x), y(y), z(z)
+  {
+    // this->x = x;
+    // this->y = y;
+    // this->z = z;
+  }
 
   /**
    * @brief Suma de dos vectores.
@@ -24,22 +31,29 @@ public:
    * @param v Segundo vector.
    * @return Vector resultante de la suma.
    */
-  static Vector3 add(const Vector3 &u, const Vector3 &v);
+  static Vector3 add(const Vector3& u, const Vector3& v) {
+    return Vector3(u.x + v.y, u.y + v.y, u.z + v.z);
+  }
 
   /**
    * @brief Sobrecarga del operador += para sumar otro vector a este vector.
    * @param v El vector a sumar.
    * @return Referencia al vector resultante después de la suma.
    */
-  Vector3 &operator+=(const Vector3 &v)
-  {
+  Vector3& operator+=(const Vector3& v) {
+    x += v.x;
+    y += v.y;
+    z += v.z;
+    return *this;
   }
 
   /**
    * @brief Clona el vector actual.
    * @return Copia del vector actual.
    */
-  Vector3 clone() const;
+  Vector3 clone() const {
+    return Vector3(x, y, z);
+  }
 
   /**
    * @brief Producto cruz de dos vectores.
@@ -47,7 +61,13 @@ public:
    * @param v Segundo vector.
    * @return Vector resultante del producto cruz.
    */
-  static Vector3 cross(const Vector3 &u, const Vector3 &v);
+  static Vector3 cross(const Vector3& u, const Vector3& v) {
+    return Vector3(
+      (u.x * v.z) - (u.z * v.y),
+      (u.z * v.x) - (u.x * v.z),
+      (u.x * v.y) - (u.y * v.x)
+    );
+  }
 
   /**
    * @brief Distancia euclidiana entre dos vectores.
@@ -55,7 +75,13 @@ public:
    * @param v Segundo vector.
    * @return Distancia euclidiana entre los vectores.
    */
-  static double distance(const Vector3 &u, const Vector3 &v);
+  static double distance(const Vector3& u, const Vector3& v) {
+    return sqrt(
+      pow(v.x - u.x, 2) +
+      pow(v.y - u.y, 2) +
+      pow(v.z - u.z, 2)
+    );
+  }
 
   /**
    * @brief Producto punto de dos vectores.
@@ -63,7 +89,9 @@ public:
    * @param v Segundo vector.
    * @return Producto punto de los vectores.
    */
-  static double dot(const Vector3 &u, const Vector3 &v);
+  static double dot(const Vector3& u, const Vector3& v) {
+    return (u.x * v.x) + (u.y * v.y) + (u.z * v.z);
+  }
 
   /**
    * @brief Comprueba si dos vectores son aproximadamente iguales.
@@ -72,7 +100,12 @@ public:
    * @param epsilon Tolerancia para la comparación. Valor por defecto es 0.000001.
    * @return Verdadero si los vectores son aproximadamente iguales.
    */
-  static bool equals(const Vector3 &u, const Vector3 &v, double epsilon = 0.000001);
+  static bool equals(const Vector3& u, const Vector3& v, double epsilon = 0.000001) {
+    return 
+      std::abs(u.x - v.x) <= epsilon &&
+      std::abs(u.y - v.y) <= epsilon &&
+      std::abs(u.z - v.z) <= epsilon;
+  }
 
   /**
    * @brief Comprueba si dos vectores son exactamente iguales.
@@ -80,13 +113,22 @@ public:
    * @param v Segundo vector.
    * @return Verdadero si los vectores son exactamente iguales.
    */
-  static bool exactEquals(const Vector3 &u, const Vector3 &v);
+  static bool exactEquals(const Vector3& u, const Vector3& v) {
+    return u.x == v.x && u.y == v.y && u.z == v.z;
+  }
 
   /**
    * @brief Normaliza el vector actual.
    * @return Vector normalizado.
    */
-  Vector3 normalize() const;
+  Vector3 normalize() const {
+    double norma = sqrt(
+      pow(x, 2) +
+      pow(y, 2) +
+      pow(z, 2)
+    );
+    return Vector3(x/norma, y/norma, z/norma);
+  }
 
   /**
    * @brief Asigna nuevos valores al vector.
@@ -94,7 +136,11 @@ public:
    * @param y Componente y del vector. Valor por defecto es 0.0.
    * @param z Componente z del vector. Valor por defecto es 0.0.
    */
-  void set(double x = 0.0, double y = 0.0, double z = 0.0);
+  void set(double x = 0.0, double y = 0.0, double z = 0.0) {
+    this->x = x;
+    this->y = y;
+    this->z = z;
+  }
 
   /**
    * @brief Resta dos vectores.
@@ -102,7 +148,9 @@ public:
    * @param v Segundo vector.
    * @return Vector resultante de la resta.
    */
-  static Vector3 subtract(const Vector3 &u, const Vector3 &v);
+  static Vector3 subtract(const Vector3& u, const Vector3& v) {
+    return Vector3(u.x - v.x, u.y - v.y, u.z - v.z);
+  }
 
   /**
    * @brief Distancia euclidiana al cuadrado entre dos vectores.
@@ -110,15 +158,18 @@ public:
    * @param v Segundo vector.
    * @return Distancia euclidiana al cuadrado entre los vectores.
    */
-  static double squaredDistance(const Vector3 &u, const Vector3 &v);
+  static double squaredDistance(const Vector3& u, const Vector3& v) {
+    return pow(Vector3::distance(u, v), 2);
+  }
 
   /**
    * @brief Asigna el vector a cero.
    */
-  void zero();
-
-private:
-  double x, y, z;
+  void zero() {
+    x = 0;
+    y = 0;
+    z = 0;
+  }
 };
 
 /**

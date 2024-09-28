@@ -52,6 +52,11 @@ class Vector3 {
    * @return Vector resultante del producto cruz.
    */
   static Vector3 cross(const Vector3& u, const Vector3& v) {
+    return Vector3(
+      (u.x * v.z) - (u.z * v.y),
+      (u.z * v.x) - (u.x * v.z),
+      (u.x * v.y) - (u.y * v.x)
+    );
   }
 
   /**
@@ -86,6 +91,10 @@ class Vector3 {
    * @return Verdadero si los vectores son aproximadamente iguales.
    */
   static bool equals(const Vector3& u, const Vector3& v, double epsilon = 0.000001) {
+    return 
+      std::abs(u.x - v.x) <= epsilon &&
+      std::abs(u.y - v.y) <= epsilon &&
+      std::abs(u.z - v.z) <= epsilon;
   }
 
   /**
