@@ -139,6 +139,10 @@ double Matrix3::determinant() const {
   * @brief Asigna la matriz a la matriz identidad.
   */
 void Matrix3::identity() {
+  a00 = 1.0; a01 = 0.0; a02 = 0.0;
+  a10 = 0.0; a11 = 1.0; a12 = 0.0;
+  a20 = 0.0; a21 = 0.0; a22 = 1.0;
+
 }
 
 /**
@@ -169,7 +173,14 @@ Vector3 Matrix3::multiplyVector(const Vector3 &v) const {
   * @param a21 Elemento en la posición (2,1).
   * @param a22 Elemento en la posición (2,2).
   */
-void Matrix3::set() {
+void Matrix3::set(
+  double a00, double a01, double a02,
+  double a10, double a11, double a12,
+  double a20, double a21, double a22
+) {
+  this->a00 = a00; this->a01 = a01; this->a02 = a02;
+  this->a10 = a10; this->a11 = a11; this->a12 = a12;
+  this->a20 = a20; this->a21 = a21; this->a22 = a22;
 }
 
 /**

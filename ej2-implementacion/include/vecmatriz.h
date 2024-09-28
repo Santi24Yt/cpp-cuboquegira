@@ -444,7 +444,11 @@ class Matrix3
    * @param a21 Elemento en la posición (2,1).
    * @param a22 Elemento en la posición (2,2).
    */
-  void set();
+  void set(
+    double a00, double a01, double a02,
+    double a10, double a11, double a12,
+    double a20, double a21, double a22
+  );
 
   /**
    * @brief Resta dos matrices.
