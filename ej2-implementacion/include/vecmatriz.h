@@ -224,6 +224,11 @@ class Vector4 {
    * @return bool True si los vectores son aproximadamente iguales, false en caso contrario.
    */
   static bool equals(const Vector4& u, const Vector4& v, double epsilon = 0.000001) {
+    return
+      std::abs(u.x - v.x) <= epsilon &&
+      std::abs(u.y - v.y) <= epsilon &&
+      std::abs(u.z - v.z) <= epsilon &&
+      std::abs(u.w - v.w) <= epsilon;
   }
 
   /**
