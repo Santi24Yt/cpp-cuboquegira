@@ -113,7 +113,13 @@ void Vector4::zero() {
   * @brief Calcula la matriz adjoint.
   * @return Matriz adjoint.
   */
+// NOTE: Se va a tratar como matriz adjunta, para poder calcular más fácil la inversa
 Matrix3 Matrix3::adjoint() const {
+  return Matrix3(
+    a11*a22 - a12*a21,   -a01*a22 + a02*a21,   a01*a12 - a02*a11,
+    -a10*a22 + a12*a20,  a00*a22 - a02*a20,    -a00*a12 + a02*a10,
+    a10*a21 - a11*a20,   -a00*a21 + a01*a20,   a00*a11 - a01*a10
+  );
 }
 
 /**
@@ -133,6 +139,8 @@ Matrix3 Matrix3::clone() const {
   * @return Determinante de la matriz.
   */
 double Matrix3::determinant() const {
+  return (a00*a11*a22) + (a01*a12*a20) + (a02*a10*a21)
+       - (a00*a12*a21) - (a01*a10*a22) - (a02*a11*a20);
 }
 
 /**
@@ -142,7 +150,6 @@ void Matrix3::identity() {
   a00 = 1.0; a01 = 0.0; a02 = 0.0;
   a10 = 0.0; a11 = 1.0; a12 = 0.0;
   a20 = 0.0; a21 = 0.0; a22 = 1.0;
-
 }
 
 /**
@@ -150,6 +157,7 @@ void Matrix3::identity() {
   * @return Matriz inversa.
   */
 Matrix3 Matrix3::invert() const {
+  return Matrix3::multiplyScalar(adjoint(), 1/determinant());
 }
 
 /**
@@ -157,10 +165,14 @@ Matrix3 Matrix3::invert() const {
   * @param v Vector a multiplicar.
   * @return Vector resultante de la multiplicación.
   */
-Vector3 Matrix3::multiplyVector(const Vector3 &v) const {
+Vector3 Matrix3::multiplyVector(const Vector3& v) const {
+  return Vector3(
+    a00*v.x + a10*v.y + a20*v.z,
+    a01*v.x + a11*v.y + a21*v.z,
+    a02*v.x + a12*v.y + a22*v.z
+  );
 }
 
-// TODO: Argumentos??
 /**
   * @brief Asigna nuevos valores a la matriz.
   * @param a00 Elemento en la posición (0,0).
@@ -188,6 +200,11 @@ void Matrix3::set(
   * @return Matriz transpuesta.
   */
 Matrix3 Matrix3::transpose() const {
+  return Matrix3(
+    a00, a10, a20,
+    a01, a11, a21,
+    a02, a12, a22
+  );
 }
 
 
@@ -248,7 +265,7 @@ Matrix4& Matrix4::identity() {
   * @param v Vector a multiplicar.
   * @return Vector4 Resultado de la multiplicación del vector por la matriz.
   */
-Vector4 Matrix4::multiplyVector(const Vector4 &v) const {
+Vector4 Matrix4::multiplyVector(const Vector4& v) const {
 }
 
 // TODO: Sin argumentos???

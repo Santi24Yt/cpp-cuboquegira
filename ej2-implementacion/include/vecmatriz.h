@@ -9,6 +9,8 @@
  */
 class Vector3 {
   public:
+  double x, y, z;
+
   /**
   * @brief Constructor por defecto.
   * @param x Componente x del vector. Valor por defecto es 0.0.
@@ -145,10 +147,6 @@ class Vector3 {
    * @brief Asigna el vector a cero.
    */
   void zero();
-
-  private:
-  // TODO: Mover a public ?
-  double x, y, z;
 };
 
 /**
@@ -157,7 +155,6 @@ class Vector3 {
  */
 class Vector4 {
   public:
-  // TODO: Mover a private ?
   double x, y, z, w;
 
   /**
@@ -286,13 +283,12 @@ class Vector4 {
  * @class Matrix3
  * @brief La clase Matrix3 representa matrices de 3 × 3 y se utiliza para la representación y construcción de transformaciones en dos dimensiones.
  */
-class Matrix3
-{
+class Matrix3 {
   public:
-  // TODO: Mover a private ?
-  double a00, a01, a02;
-  double a10, a11, a12;
-  double a20, a21, a22;
+  double 
+    a00, a01, a02,
+    a10, a11, a12,
+    a20, a21, a22;
 
   /**
    * @brief Constructor por defecto.
@@ -306,13 +302,14 @@ class Matrix3
    * @param a21 Elemento en la posición (2,1). Valor por defecto es 0.0.
    * @param a22 Elemento en la posición (2,2). Valor por defecto es 1.0.
    */
-  Matrix3(double a00 = 1.0, double a01 = 0.0, double a02 = 0.0,
-          double a10 = 0.0, double a11 = 1.0, double a12 = 0.0,
-          double a20 = 0.0, double a21 = 0.0, double a22 = 1.0) 
-        :
-          a00(a00), a01(a01), a02(a02),
-          a10(a10), a11(a11), a12(a12),
-          a20(a20), a21(a21), a22(a22)
+  Matrix3(
+    double a00 = 1.0, double a01 = 0.0, double a02 = 0.0,
+    double a10 = 0.0, double a11 = 1.0, double a12 = 0.0,
+    double a20 = 0.0, double a21 = 0.0, double a22 = 1.0
+  ) :
+    a00(a00), a01(a01), a02(a02),
+    a10(a10), a11(a11), a12(a12),
+    a20(a20), a21(a21), a22(a22)
   {
     // this->a00 = a00; this->a01 = a01; this->a02 = a02;
     // this->a10 = a10; this->a11 = a11; this->a12 = a12;
@@ -337,6 +334,7 @@ class Matrix3
    * @brief Calcula la matriz adjoint.
    * @return Matriz adjoint.
    */
+  // NOTE: Se va a tratar como matriz adjunta, para poder calcular más fácil la inversa
   Matrix3 adjoint() const;
 
   /**
@@ -359,6 +357,16 @@ class Matrix3
    * @return Verdadero si las matrices son aproximadamente iguales.
    */
   static bool equalsWithE(const Matrix3& m1, const Matrix3& m2, double e) {
+    return
+      std::abs(m1.a00 - m2.a00) <= e &&
+      std::abs(m1.a01 - m2.a01) <= e &&
+      std::abs(m1.a02 - m2.a02) <= e &&
+      std::abs(m1.a10 - m2.a10) <= e &&
+      std::abs(m1.a11 - m2.a11) <= e &&
+      std::abs(m1.a12 - m2.a12) <= e &&
+      std::abs(m1.a20 - m2.a20) <= e &&
+      std::abs(m1.a21 - m2.a21) <= e &&
+      std::abs(m1.a22 - m2.a22) <= e;
   }
 
   // TODO: Duplicado con exact equals?
@@ -406,6 +414,11 @@ class Matrix3
    * @return Matriz resultante de la multiplicación.
    */
   static Matrix3 multiply(const Matrix3& m1, const Matrix3& m2) {
+    return Matrix3(
+      m1.a00*m2.a00 + m1.a01*m2.a10 + m1.a02*m2.a20,  m1.a00*m2.a01 + m1.a01*m2.a11 + m1.a02*m2.a21,  m1.a00*m2.a02 + m1.a01*m2.a12 + m1.a02*m2.a22, 
+      m1.a10*m2.a00 + m1.a11*m2.a10 + m1.a12*m2.a20,  m1.a10*m2.a01 + m1.a11*m2.a11 + m1.a12*m2.a21,  m1.a10*m2.a02 + m1.a11*m2.a12 + m1.a12*m2.a22,
+      m1.a20*m2.a00 + m1.a21*m2.a10 + m1.a22*m2.a20,  m1.a20*m2.a01 + m1.a21*m2.a11 + m1.a22*m2.a21,  m1.a20*m2.a02 + m1.a21*m2.a12 + m1.a22*m2.a22
+    );
   }
 
   /**
