@@ -448,6 +448,11 @@ class Matrix3 {
    * @return Matriz de rotación.
    */
   static Matrix3 rotate(double theta) {
+    return Matrix3(
+      std::cos(theta) , std::sin(theta), 0,
+      -std::sin(theta), std::cos(theta), 0,
+      0               , 0              , 1
+    );
   }
 
   /**
@@ -457,6 +462,11 @@ class Matrix3 {
    * @return Matriz de escalamiento.
    */
   static Matrix3 scale(double sx, double sy) {
+    return Matrix3(
+      sx, 0 , 0,
+      0 , sy, 0,
+      0 , 0 , 1
+    );
   }
 
   /**
@@ -498,6 +508,11 @@ class Matrix3 {
    * @return Matriz de translación.
    */
   static Matrix3 translate(double tx, double ty) {
+    return Matrix3(
+      1 , 0 , 0,
+      0 , 1 , 0,
+      tx, ty, 1
+    );
   }
 
   /**

@@ -525,7 +525,11 @@ class Matrix3 {
    * @return Matriz de rotación.
    */
   static Matrix3 rotate(double theta) {
-
+    return Matrix3(
+      std::cos(theta) , std::sin(theta), 0,
+      -std::sin(theta), std::cos(theta), 0,
+      0               , 0              , 1
+    );
   }
 
   /**
@@ -535,7 +539,11 @@ class Matrix3 {
    * @return Matriz de escalamiento.
    */
   static Matrix3 scale(double sx, double sy) {
-
+    return Matrix3(
+      sx, 0 , 0,
+      0 , sy, 0,
+      0 , 0 , 1
+    );
   }
 
   /**
@@ -582,7 +590,11 @@ class Matrix3 {
    * @return Matriz de translación.
    */
   static Matrix3 translate(double tx, double ty) {
-
+    return Matrix3(
+      1 , 0 , 0,
+      0 , 1 , 0,
+      tx, ty, 1
+    );
   }
 
   /**
@@ -894,7 +906,7 @@ class Matrix4 {
    * @brief Devuelve la transpuesta de la matriz actual.
    * @return Matrix4 Matriz transpuesta.
    */
-  Matrix4 Mtranspose() const {
+  Matrix4 transpose() const {
     return Matrix4(
       a00, a10, a20, a30,
       a01, a11, a21, a31,
@@ -1118,27 +1130,26 @@ int main()
   cout << m9.a10 << " " << m9.a11 << " " << m9.a12 << endl;
   cout << m9.a20 << " " << m9.a21 << " " << m9.a22 << endl;
 
-  // TODO:
-  // // Rotación
-  // Matrix3 m10 = Matrix3::rotate(3.14159265358979 / 4); // 45 grados
-  // cout << "Rotación de 45 grados:" << endl;
-  // cout << m10.a00 << " " << m10.a01 << " " << m10.a02 << endl;
-  // cout << m10.a10 << " " << m10.a11 << " " << m10.a12 << endl;
-  // cout << m10.a20 << " " << m10.a21 << " " << m10.a22 << endl;
-  //
-  // // Escalamiento
-  // Matrix3 m11 = Matrix3::scale(2.0, 3.0);
-  // cout << "Escalamiento (2.0, 3.0):" << endl;
-  // cout << m11.a00 << " " << m11.a01 << " " << m11.a02 << endl;
-  // cout << m11.a10 << " " << m11.a11 << " " << m11.a12 << endl;
-  // cout << m11.a20 << " " << m11.a21 << " " << m11.a22 << endl;
-  //
-  // // Traslación
-  // Matrix3 m12 = Matrix3::translate(5.0, 10.0);
-  // cout << "Traslación (5.0, 10.0):" << endl;
-  // cout << m12.a00 << " " << m12.a01 << " " << m12.a02 << endl;
-  // cout << m12.a10 << " " << m12.a11 << " " << m12.a12 << endl;
-  // cout << m12.a20 << " " << m12.a21 << " " << m12.a22 << endl;
+  // Rotación
+  Matrix3 m10 = Matrix3::rotate(3.14159265358979 / 4); // 45 grados
+  cout << "Rotación de 45 grados:" << endl;
+  cout << m10.a00 << " " << m10.a01 << " " << m10.a02 << endl;
+  cout << m10.a10 << " " << m10.a11 << " " << m10.a12 << endl;
+  cout << m10.a20 << " " << m10.a21 << " " << m10.a22 << endl;
+
+  // Escalamiento
+  Matrix3 m11 = Matrix3::scale(2.0, 3.0);
+  cout << "Escalamiento (2.0, 3.0):" << endl;
+  cout << m11.a00 << " " << m11.a01 << " " << m11.a02 << endl;
+  cout << m11.a10 << " " << m11.a11 << " " << m11.a12 << endl;
+  cout << m11.a20 << " " << m11.a21 << " " << m11.a22 << endl;
+
+  // Traslación
+  Matrix3 m12 = Matrix3::translate(5.0, 10.0);
+  cout << "Traslación (5.0, 10.0):" << endl;
+  cout << m12.a00 << " " << m12.a01 << " " << m12.a02 << endl;
+  cout << m12.a10 << " " << m12.a11 << " " << m12.a12 << endl;
+  cout << m12.a20 << " " << m12.a21 << " " << m12.a22 << endl;
 
   // ejemplos vector4
   Vector4 vectorA(1, 2, 3, 4);
@@ -1209,13 +1220,12 @@ int main()
   cout << " " << result.a20 << " " << result.a21 << " " << result.a22 << " " << result.a23 << endl;
   cout << " " << result.a30 << " " << result.a31 << " " << result.a32 << " " << result.a33 << endl;
 
-  // TODO: 
-  // result = mat1.transpose();
-  // cout << "Transpose de Matrix 1:" << endl;
-  // cout << " " << result.a00 << " " << result.a01 << " " << result.a02 << " " << result.a03 << endl;
-  // cout << " " << result.a10 << " " << result.a11 << " " << result.a12 << " " << result.a13 << endl;
-  // cout << " " << result.a20 << " " << result.a21 << " " << result.a22 << " " << result.a23 << endl;
-  // cout << " " << result.a30 << " " << result.a31 << " " << result.a32 << " " << result.a33 << endl;
+  result = mat1.transpose();
+  cout << "Transpose de Matrix 1:" << endl;
+  cout << " " << result.a00 << " " << result.a01 << " " << result.a02 << " " << result.a03 << endl;
+  cout << " " << result.a10 << " " << result.a11 << " " << result.a12 << " " << result.a13 << endl;
+  cout << " " << result.a20 << " " << result.a21 << " " << result.a22 << " " << result.a23 << endl;
+  cout << " " << result.a30 << " " << result.a31 << " " << result.a32 << " " << result.a33 << endl;
 
   result = mat1.invert();
   cout << "Inversa de Matrix 1:" << endl;
