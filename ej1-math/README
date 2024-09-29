@@ -7,7 +7,18 @@ $ ./math
 Para checar que son iguales los resultados:
 $ make check
 
+Los resultados que se usan para comparar tienen algunas
+modificaciones, las principales son las matrices de transformación
+que se usa el formato en el que el vector es fila no columna
 
-Nota:
-Se cambió en donde había "-0" se cambió por "0"
-no afecta en nada los cálculos
+
+                        ⎡a00  a01  a02⎤
+                        ⎢             ⎥
+ v * M =  [x  y  z] *   ⎢a10  a11  a12⎥
+                        ⎢             ⎥
+                        ⎣a20  a21  a22⎦
+
+También se cambió los -0 por 0, lo cuál no afecta los cálculos
+
+Se puede comparar con los resultados originales usando:
+$ make checkog

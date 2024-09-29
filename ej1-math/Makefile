@@ -17,8 +17,13 @@ lspflags:
 
 check: runpipe compare
 
+checkog: runpipe compareog
+
 runpipe:
 	./$(OUT) > Obtenido.txt
 
 compare:
+	git --no-pager diff --no-index ResultadosMod.txt Obtenido.txt > diferencia.diff
+
+compareog:
 	git --no-pager diff --no-index Resultados.txt Obtenido.txt > diferencia.diff
