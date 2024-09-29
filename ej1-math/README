@@ -1,0 +1,13 @@
+Para compilar:
+$ make
+
+Para ejecutar:
+$ ./math
+
+Para checar que son iguales los resultados:
+$ make check
+
+
+Nota:
+Se cambió en donde había "-0" se cambió por "0"
+no afecta en nada los cálculos

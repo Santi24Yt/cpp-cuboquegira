@@ -466,7 +466,15 @@ class Matrix3 {
    * @return Matriz inversa.
    */
   Matrix3 invert() const {
-    return Matrix3::multiplyScalar(adjoint(), 1/determinant());
+    double det = determinant();
+
+    if (det <= 0.000000001 && det >= -0.000000001) {
+      cout << "No tiene inversa" << endl;
+      // throw runtime_error("No tiene inversa");
+      return Matrix3();
+    }
+
+    return Matrix3::multiplyScalar(adjoint(), 1/det);
   }
 
   /**
@@ -782,7 +790,15 @@ class Matrix4 {
    * @throws std::runtime_error Si la matriz es singular (determinante cercano a cero).
    */
   Matrix4 invert() const {
-    return Matrix4::multiplyScalar(adjoint(), 1/determinant());
+    double det = determinant();
+
+    if (det == 0) {
+      cout << "No tiene inversa" << endl;
+      // throw runtime_error("No tiene inversa");
+      return Matrix4();
+    }
+
+    return Matrix4::multiplyScalar(adjoint(), 1/det);
   }
 
   /**
