@@ -511,14 +511,13 @@ class Matrix3 {
  * @class Matrix4
  * @brief La clase Matrix4 representa matrices de 4 × 4 y se utiliza para la representación y construcción de transformaciones en tres dimensiones.
  */
-class Matrix4
-{
+class Matrix4 {
   public:
-  // TODO: Mover a private ?
-  double a00, a01, a02, a03;
-  double a10, a11, a12, a13;
-  double a20, a21, a22, a23;
-  double a30, a31, a32, a33;
+  double 
+    a00, a01, a02, a03,
+    a10, a11, a12, a13,
+    a20, a21, a22, a23,
+    a30, a31, a32, a33;
 
   /**
    * @brief Constructor que inicializa una matriz 4x4 con valores por defecto.
@@ -575,6 +574,7 @@ class Matrix4
    * @brief Devuelve la matriz adjunta de la matriz actual.
    * @return Matrix4 Matriz adjunta.
    */
+  // NOTE: Se tomará como matriz adjunta
   Matrix4 adjoint() const;
 
   /**
@@ -597,6 +597,23 @@ class Matrix4
    * @return bool True si las matrices son aproximadamente iguales, false en caso contrario.
    */
   static bool equalsWithE(const Matrix4& m1, const Matrix4& m2, double epsilon) {
+    return
+      std::abs(m1.a00 - m2.a00) <= epsilon &&
+      std::abs(m1.a01 - m2.a01) <= epsilon &&
+      std::abs(m1.a02 - m2.a02) <= epsilon &&
+      std::abs(m1.a03 - m2.a03) <= epsilon &&
+      std::abs(m1.a10 - m2.a10) <= epsilon &&
+      std::abs(m1.a11 - m2.a11) <= epsilon &&
+      std::abs(m1.a12 - m2.a12) <= epsilon &&
+      std::abs(m1.a13 - m2.a13) <= epsilon &&
+      std::abs(m1.a20 - m2.a20) <= epsilon &&
+      std::abs(m1.a21 - m2.a21) <= epsilon &&
+      std::abs(m1.a22 - m2.a22) <= epsilon &&
+      std::abs(m1.a23 - m2.a23) <= epsilon &&
+      std::abs(m1.a30 - m2.a30) <= epsilon &&
+      std::abs(m1.a31 - m2.a31) <= epsilon &&
+      std::abs(m1.a32 - m2.a32) <= epsilon &&
+      std::abs(m1.a33 - m2.a33) <= epsilon;
   }
 
   /**
@@ -613,6 +630,27 @@ class Matrix4
    * @return Matrix4 Resultado de la multiplicación de m1 y m2.
    */
   static Matrix4 multiply(const Matrix4& m1, const Matrix4& m2) {
+    return Matrix4(
+      m1.a00*m2.a00 + m1.a01*m2.a10 + m1.a02*m2.a20 + m1.a03*m2.a30,
+      m1.a00*m2.a01 + m1.a01*m2.a11 + m1.a02*m2.a21 + m1.a03*m2.a31,
+      m1.a00*m2.a02 + m1.a01*m2.a12 + m1.a02*m2.a22 + m1.a03*m2.a32,
+      m1.a00*m2.a03 + m1.a01*m2.a13 + m1.a02*m2.a23 + m1.a03*m2.a33,
+
+      m1.a10*m2.a00 + m1.a11*m2.a10 + m1.a12*m2.a20 + m1.a13*m2.a30,
+      m1.a10*m2.a01 + m1.a11*m2.a11 + m1.a12*m2.a21 + m1.a13*m2.a31,
+      m1.a10*m2.a02 + m1.a11*m2.a12 + m1.a12*m2.a22 + m1.a13*m2.a32,
+      m1.a10*m2.a03 + m1.a11*m2.a13 + m1.a12*m2.a23 + m1.a13*m2.a33,
+
+      m1.a20*m2.a00 + m1.a21*m2.a10 + m1.a22*m2.a20 + m1.a23*m2.a30,
+      m1.a20*m2.a01 + m1.a21*m2.a11 + m1.a22*m2.a21 + m1.a23*m2.a31,
+      m1.a20*m2.a02 + m1.a21*m2.a12 + m1.a22*m2.a22 + m1.a23*m2.a32,
+      m1.a20*m2.a03 + m1.a21*m2.a13 + m1.a22*m2.a23 + m1.a23*m2.a33,
+
+      m1.a30*m2.a00 + m1.a31*m2.a10 + m1.a32*m2.a20 + m1.a33*m2.a30,
+      m1.a30*m2.a01 + m1.a31*m2.a11 + m1.a32*m2.a21 + m1.a33*m2.a31,
+      m1.a30*m2.a02 + m1.a31*m2.a12 + m1.a32*m2.a22 + m1.a33*m2.a32,
+      m1.a30*m2.a03 + m1.a31*m2.a13 + m1.a32*m2.a23 + m1.a33*m2.a33
+    );
   }
 
   /**
@@ -670,7 +708,12 @@ class Matrix4
    * @param a33 Valor para el elemento (3,3).
    * @return Matrix4& Referencia a la matriz actual.
    */
-  Matrix4& set();
+  Matrix4& set(
+    double a00, double a01, double a02, double a03,
+    double a10, double a11, double a12, double a13,
+    double a20, double a21, double a22, double a23,
+    double a30, double a31, double a32, double a33
+  );
 
   /**
    * @brief Devuelve la resta de dos matrices.

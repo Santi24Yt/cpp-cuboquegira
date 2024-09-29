@@ -214,6 +214,27 @@ Matrix3 Matrix3::transpose() const {
   * @return Matrix4 Matriz adjunta.
   */
 Matrix4 Matrix4::adjoint() const {
+  return Matrix4(
+    a11*a22*a33 - a11*a23*a32 - a12*a21*a33 + a12*a23*a31 + a13*a21*a32 - a13*a22*a31,
+    -a01*a22*a33 + a01*a23*a32 + a02*a21*a33 - a02*a23*a31 - a03*a21*a32 + a03*a22*a31,
+    a01*a12*a33 - a01*a13*a32 - a02*a11*a33 + a02*a13*a31 + a03*a11*a32 - a03*a12*a31,
+    -a01*a12*a23 + a01*a13*a22 + a02*a11*a23 - a02*a13*a21 - a03*a11*a22 + a03*a12*a21,
+
+    -a10*a22*a33 + a10*a23*a32 + a12*a20*a33 - a12*a23*a30 - a13*a20*a32 + a13*a22*a30,
+    a00*a22*a33 - a00*a23*a32 - a02*a20*a33 + a02*a23*a30 + a03*a20*a32 - a03*a22*a30,
+    -a00*a12*a33 + a00*a13*a32 + a02*a10*a33 - a02*a13*a30 - a03*a10*a32 + a03*a12*a30,
+    a00*a12*a23 - a00*a13*a22 - a02*a10*a23 + a02*a13*a20 + a03*a10*a22 - a03*a12*a20,
+
+    a10*a21*a33 - a10*a23*a31 - a11*a20*a33 + a11*a23*a30 + a13*a20*a31 - a13*a21*a30,
+    -a00*a21*a33 + a00*a23*a31 + a01*a20*a33 - a01*a23*a30 - a03*a20*a31 + a03*a21*a30,
+    a00*a11*a33 - a00*a13*a31 - a01*a10*a33 + a01*a13*a30 + a03*a10*a31 - a03*a11*a30,
+    -a00*a11*a23 + a00*a13*a21 + a01*a10*a23 - a01*a13*a20 - a03*a10*a21 + a03*a11*a20,
+
+    -a10*a21*a32 + a10*a22*a31 + a11*a20*a32 - a11*a22*a30 - a12*a20*a31 + a12*a21*a30,
+    a00*a21*a32 - a00*a22*a31 - a01*a20*a32 + a01*a22*a30 + a02*a20*a31 - a02*a21*a30,
+    -a00*a11*a32 + a00*a12*a31 + a01*a10*a32 - a01*a12*a30 - a02*a10*a31 + a02*a11*a30,
+    a00*a11*a22 - a00*a12*a21 - a01*a10*a22 + a01*a12*a20 + a02*a10*a21 - a02*a11*a20
+  );
 }
 
 /**
@@ -234,6 +255,10 @@ Matrix4 Matrix4::clone() const {
   * @return double Determinante de la matriz.
   */
 double Matrix4::determinant() const {
+    return a00*a11*a22*a33 - a00*a11*a23*a32 - a00*a12*a21*a33 + a00*a12*a23*a31 + a00*a13*a21*a32 - a00*a13*a22*a31
+         - a01*a10*a22*a33 + a01*a10*a23*a32 + a01*a12*a20*a33 - a01*a12*a23*a30 - a01*a13*a20*a32 + a01*a13*a22*a30
+         + a02*a10*a21*a33 - a02*a10*a23*a31 - a02*a11*a20*a33 + a02*a11*a23*a30 + a02*a13*a20*a31 - a02*a13*a21*a30
+         - a03*a10*a21*a32 + a03*a10*a22*a31 + a03*a11*a20*a32 - a03*a11*a22*a30 - a03*a12*a20*a31 + a03*a12*a21*a30;
 }
 
 // TODO: Duplicado??
@@ -243,6 +268,12 @@ double Matrix4::determinant() const {
   * @return Matrix4 Resultado de la multiplicación por el escalar.
   */
 Matrix4 Matrix4::multiplyByScalar(double scalar) const {
+  return Matrix4(
+    a00 * scalar, a01 * scalar, a02 * scalar, a03 * scalar,
+    a10 * scalar, a11 * scalar, a12 * scalar, a13 * scalar,
+    a20 * scalar, a21 * scalar, a22 * scalar, a23 * scalar,
+    a30 * scalar, a31 * scalar, a32 * scalar, a33 * scalar
+  );
 }
 
 /**
@@ -251,6 +282,7 @@ Matrix4 Matrix4::multiplyByScalar(double scalar) const {
   * @throws std::runtime_error Si la matriz es singular (determinante cercano a cero).
   */
 Matrix4 Matrix4::invert() const {
+  return Matrix4::multiplyScalar(adjoint(), 1/determinant());
 }
 
 /**
@@ -258,6 +290,11 @@ Matrix4 Matrix4::invert() const {
   * @return Matrix4& Referencia a la matriz actual.
   */
 Matrix4& Matrix4::identity() {
+  a00 = 1.0; a01 = 0.0; a02 = 0.0; a03 = 0.0;
+  a10 = 0.0; a11 = 1.0; a12 = 0.0; a13 = 0.0;
+  a20 = 0.0; a21 = 0.0; a22 = 1.0; a23 = 0.0;
+  a30 = 0.0; a31 = 0.0; a32 = 0.0; a33 = 1.0;
+  return *this;
 }
 
 /**
@@ -266,6 +303,12 @@ Matrix4& Matrix4::identity() {
   * @return Vector4 Resultado de la multiplicación del vector por la matriz.
   */
 Vector4 Matrix4::multiplyVector(const Vector4& v) const {
+  return Vector4(
+    a00*v.x + a10*v.y + a20*v.z + a30*v.w,
+    a01*v.x + a11*v.y + a21*v.z + a31*v.w,
+    a02*v.x + a12*v.y + a22*v.z + a32*v.w,
+    a03*v.x + a13*v.y + a23*v.z + a33*v.w
+  );
 }
 
 // TODO: Sin argumentos???
@@ -289,7 +332,17 @@ Vector4 Matrix4::multiplyVector(const Vector4& v) const {
   * @param a33 Valor para el elemento (3,3).
   * @return Matrix4& Referencia a la matriz actual.
   */
-Matrix4& Matrix4::set() {
+Matrix4& Matrix4::set(
+  double a00, double a01, double a02, double a03,
+  double a10, double a11, double a12, double a13,
+  double a20, double a21, double a22, double a23,
+  double a30, double a31, double a32, double a33
+) {
+  this->a00 = a00; this->a01 = a01; this->a02 = a02; this->a03 = a03;
+  this->a10 = a10; this->a11 = a11; this->a12 = a12; this->a13 = a13;
+  this->a20 = a20; this->a21 = a21; this->a22 = a22; this->a23 = a23;
+  this->a30 = a30; this->a31 = a31; this->a32 = a32; this->a33 = a33;
+  return *this;
 }
 
 /**
@@ -297,6 +350,12 @@ Matrix4& Matrix4::set() {
   * @return Matrix4 Matriz transpuesta.
   */
 Matrix4 Matrix4::transpose() const {
+  return Matrix4(
+    a00, a10, a20, a30,
+    a01, a11, a21, a31,
+    a02, a12, a22, a32,
+    a03, a13, a23, a33
+  );
 }
 
 

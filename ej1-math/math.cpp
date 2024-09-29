@@ -594,13 +594,13 @@ class Matrix3 {
  * @class Matrix4
  * @brief La clase Matrix4 representa matrices de 4 × 4 y se utiliza para la representación y construcción de transformaciones en tres dimensiones.
  */
-class Matrix4
-{
-public:
-  double a00, a01, a02, a03;
-  double a10, a11, a12, a13;
-  double a20, a21, a22, a23;
-  double a30, a31, a32, a33;
+class Matrix4 {
+  public:
+  double 
+    a00, a01, a02, a03,
+    a10, a11, a12, a13,
+    a20, a21, a22, a23,
+    a30, a31, a32, a33;
 
   /**
    * @brief Constructor que inicializa una matriz 4x4 con valores por defecto.
@@ -622,10 +622,21 @@ public:
    * @param a33 Valor para el elemento (3,3).
    */
   Matrix4(
-      double a00 = 1, double a01 = 0, double a02 = 0, double a03 = 0,
-      double a10 = 0, double a11 = 1, double a12 = 0, double a13 = 0,
-      double a20 = 0, double a21 = 0, double a22 = 1, double a23 = 0,
-      double a30 = 0, double a31 = 0, double a32 = 0, double a33 = 1);
+      double a00 = 1.0, double a01 = 0.0, double a02 = 0.0, double a03 = 0.0,
+      double a10 = 0.0, double a11 = 1.0, double a12 = 0.0, double a13 = 0.0,
+      double a20 = 0.0, double a21 = 0.0, double a22 = 1.0, double a23 = 0.0,
+      double a30 = 0.0, double a31 = 0.0, double a32 = 0.0, double a33 = 1.0)
+    :
+      a00(a00), a01(a01), a02(a02), a03(a03),
+      a10(a10), a11(a11), a12(a12), a13(a13),
+      a20(a20), a21(a21), a22(a22), a23(a23),
+      a30(a30), a31(a31), a32(a32), a33(a33)
+  {
+    // this->a00 = a00; this->a01 = a01; this->a02 = a02; this->a03 = a03;
+    // this->a10 = a10; this->a11 = a11; this->a12 = a12; this->a13 = a13;
+    // this->a20 = a20; this->a21 = a21; this->a22 = a22; this->a23 = a23;
+    // this->a30 = a30; this->a31 = a31; this->a32 = a32; this->a33 = a33;
+  }
 
   /**
    * @brief Devuelve la suma de dos matrices.
@@ -633,25 +644,66 @@ public:
    * @param m2 Segunda matriz.
    * @return Matrix4 Resultado de la suma de m1 y m2.
    */
-  static Matrix4 add(const Matrix4 &m1, const Matrix4 &m2);
+  static Matrix4 add(const Matrix4& m1, const Matrix4& m2) {
+    return Matrix4(
+      m1.a00 + m2.a00, m1.a01 + m2.a01, m1.a02 + m2.a02, m1.a03 + m2.a03,
+      m1.a10 + m2.a10, m1.a11 + m2.a11, m1.a12 + m2.a12, m1.a13 + m2.a13,
+      m1.a20 + m2.a20, m1.a21 + m2.a21, m1.a22 + m2.a22, m1.a23 + m2.a23,
+      m1.a30 + m2.a30, m1.a31 + m2.a31, m1.a32 + m2.a32, m1.a33 + m2.a33
+    );
+  }
 
   /**
    * @brief Devuelve la matriz adjunta de la matriz actual.
    * @return Matrix4 Matriz adjunta.
    */
-  Matrix4 adjoint() const;
+  Matrix4 adjoint() const {
+    return Matrix4(
+      a11*a22*a33 - a11*a23*a32 - a12*a21*a33 + a12*a23*a31 + a13*a21*a32 - a13*a22*a31,
+      -a01*a22*a33 + a01*a23*a32 + a02*a21*a33 - a02*a23*a31 - a03*a21*a32 + a03*a22*a31,
+      a01*a12*a33 - a01*a13*a32 - a02*a11*a33 + a02*a13*a31 + a03*a11*a32 - a03*a12*a31,
+      -a01*a12*a23 + a01*a13*a22 + a02*a11*a23 - a02*a13*a21 - a03*a11*a22 + a03*a12*a21,
+
+      -a10*a22*a33 + a10*a23*a32 + a12*a20*a33 - a12*a23*a30 - a13*a20*a32 + a13*a22*a30,
+      a00*a22*a33 - a00*a23*a32 - a02*a20*a33 + a02*a23*a30 + a03*a20*a32 - a03*a22*a30,
+      -a00*a12*a33 + a00*a13*a32 + a02*a10*a33 - a02*a13*a30 - a03*a10*a32 + a03*a12*a30,
+      a00*a12*a23 - a00*a13*a22 - a02*a10*a23 + a02*a13*a20 + a03*a10*a22 - a03*a12*a20,
+
+      a10*a21*a33 - a10*a23*a31 - a11*a20*a33 + a11*a23*a30 + a13*a20*a31 - a13*a21*a30,
+      -a00*a21*a33 + a00*a23*a31 + a01*a20*a33 - a01*a23*a30 - a03*a20*a31 + a03*a21*a30,
+      a00*a11*a33 - a00*a13*a31 - a01*a10*a33 + a01*a13*a30 + a03*a10*a31 - a03*a11*a30,
+      -a00*a11*a23 + a00*a13*a21 + a01*a10*a23 - a01*a13*a20 - a03*a10*a21 + a03*a11*a20,
+
+      -a10*a21*a32 + a10*a22*a31 + a11*a20*a32 - a11*a22*a30 - a12*a20*a31 + a12*a21*a30,
+      a00*a21*a32 - a00*a22*a31 - a01*a20*a32 + a01*a22*a30 + a02*a20*a31 - a02*a21*a30,
+      -a00*a11*a32 + a00*a12*a31 + a01*a10*a32 - a01*a12*a30 - a02*a10*a31 + a02*a11*a30,
+      a00*a11*a22 - a00*a12*a21 - a01*a10*a22 + a01*a12*a20 + a02*a10*a21 - a02*a11*a20
+    );
+  }
 
   /**
    * @brief Devuelve una copia del objeto Matrix4.
    * @return Matrix4 Copia del objeto actual.
    */
-  Matrix4 clone() const;
+  Matrix4 clone() const {
+    return Matrix4(
+      a00, a01, a02, a03,
+      a10, a11, a12, a13,
+      a20, a21, a22, a23,
+      a30, a31, a32, a33
+    );
+  }
 
   /**
    * @brief Calcula el determinante de la matriz.
    * @return double Determinante de la matriz.
    */
-  double determinant() const;
+  double determinant() const {
+    return a00*a11*a22*a33 - a00*a11*a23*a32 - a00*a12*a21*a33 + a00*a12*a23*a31 + a00*a13*a21*a32 - a00*a13*a22*a31
+         - a01*a10*a22*a33 + a01*a10*a23*a32 + a01*a12*a20*a33 - a01*a12*a23*a30 - a01*a13*a20*a32 + a01*a13*a22*a30
+         + a02*a10*a21*a33 - a02*a10*a23*a31 - a02*a11*a20*a33 + a02*a11*a23*a30 + a02*a13*a20*a31 - a02*a13*a21*a30
+         - a03*a10*a21*a32 + a03*a10*a22*a31 + a03*a11*a20*a32 - a03*a11*a22*a30 - a03*a12*a20*a31 + a03*a12*a21*a30;
+  }
 
   /**
    * @brief Verifica si dos matrices son aproximadamente iguales.
@@ -660,14 +712,39 @@ public:
    * @param epsilon Tolerancia para la comparación.
    * @return bool True si las matrices son aproximadamente iguales, false en caso contrario.
    */
-  static bool equalsWithE(const Matrix4 &m1, const Matrix4 &m2, double epsilon);
+  static bool equalsWithE(const Matrix4& m1, const Matrix4& m2, double epsilon) {
+    return
+      std::abs(m1.a00 - m2.a00) <= epsilon &&
+      std::abs(m1.a01 - m2.a01) <= epsilon &&
+      std::abs(m1.a02 - m2.a02) <= epsilon &&
+      std::abs(m1.a03 - m2.a03) <= epsilon &&
+      std::abs(m1.a10 - m2.a10) <= epsilon &&
+      std::abs(m1.a11 - m2.a11) <= epsilon &&
+      std::abs(m1.a12 - m2.a12) <= epsilon &&
+      std::abs(m1.a13 - m2.a13) <= epsilon &&
+      std::abs(m1.a20 - m2.a20) <= epsilon &&
+      std::abs(m1.a21 - m2.a21) <= epsilon &&
+      std::abs(m1.a22 - m2.a22) <= epsilon &&
+      std::abs(m1.a23 - m2.a23) <= epsilon &&
+      std::abs(m1.a30 - m2.a30) <= epsilon &&
+      std::abs(m1.a31 - m2.a31) <= epsilon &&
+      std::abs(m1.a32 - m2.a32) <= epsilon &&
+      std::abs(m1.a33 - m2.a33) <= epsilon;
+  }
 
   /**
    * @brief Multiplica la matriz por un escalar.
    * @param scalar Escalar por el cual multiplicar la matriz.
    * @return Matrix4 Resultado de la multiplicación por el escalar.
    */
-  Matrix4 multiplyByScalar(double scalar) const;
+  Matrix4 multiplyByScalar(double scalar) const {
+    return Matrix4(
+      a00 * scalar, a01 * scalar, a02 * scalar, a03 * scalar,
+      a10 * scalar, a11 * scalar, a12 * scalar, a13 * scalar,
+      a20 * scalar, a21 * scalar, a22 * scalar, a23 * scalar,
+      a30 * scalar, a31 * scalar, a32 * scalar, a33 * scalar
+    );
+  }
 
   /**
    * @brief Multiplica dos matrices.
@@ -675,20 +752,50 @@ public:
    * @param m2 Segunda matriz.
    * @return Matrix4 Resultado de la multiplicación de m1 y m2.
    */
-  static Matrix4 multiply(const Matrix4 &m1, const Matrix4 &m2);
+  static Matrix4 multiply(const Matrix4& m1, const Matrix4& m2) {
+    return Matrix4(
+      m1.a00*m2.a00 + m1.a01*m2.a10 + m1.a02*m2.a20 + m1.a03*m2.a30,
+      m1.a00*m2.a01 + m1.a01*m2.a11 + m1.a02*m2.a21 + m1.a03*m2.a31,
+      m1.a00*m2.a02 + m1.a01*m2.a12 + m1.a02*m2.a22 + m1.a03*m2.a32,
+      m1.a00*m2.a03 + m1.a01*m2.a13 + m1.a02*m2.a23 + m1.a03*m2.a33,
+
+      m1.a10*m2.a00 + m1.a11*m2.a10 + m1.a12*m2.a20 + m1.a13*m2.a30,
+      m1.a10*m2.a01 + m1.a11*m2.a11 + m1.a12*m2.a21 + m1.a13*m2.a31,
+      m1.a10*m2.a02 + m1.a11*m2.a12 + m1.a12*m2.a22 + m1.a13*m2.a32,
+      m1.a10*m2.a03 + m1.a11*m2.a13 + m1.a12*m2.a23 + m1.a13*m2.a33,
+
+      m1.a20*m2.a00 + m1.a21*m2.a10 + m1.a22*m2.a20 + m1.a23*m2.a30,
+      m1.a20*m2.a01 + m1.a21*m2.a11 + m1.a22*m2.a21 + m1.a23*m2.a31,
+      m1.a20*m2.a02 + m1.a21*m2.a12 + m1.a22*m2.a22 + m1.a23*m2.a32,
+      m1.a20*m2.a03 + m1.a21*m2.a13 + m1.a22*m2.a23 + m1.a23*m2.a33,
+
+      m1.a30*m2.a00 + m1.a31*m2.a10 + m1.a32*m2.a20 + m1.a33*m2.a30,
+      m1.a30*m2.a01 + m1.a31*m2.a11 + m1.a32*m2.a21 + m1.a33*m2.a31,
+      m1.a30*m2.a02 + m1.a31*m2.a12 + m1.a32*m2.a22 + m1.a33*m2.a32,
+      m1.a30*m2.a03 + m1.a31*m2.a13 + m1.a32*m2.a23 + m1.a33*m2.a33
+    );
+  }
 
   /**
    * @brief Invierte la matriz actual.
    * @return Matrix4 Matriz invertida.
    * @throws std::runtime_error Si la matriz es singular (determinante cercano a cero).
    */
-  Matrix4 invert() const;
+  Matrix4 invert() const {
+    return Matrix4::multiplyScalar(adjoint(), 1/determinant());
+  }
 
   /**
    * @brief Establece la matriz como una matriz identidad.
    * @return Matrix4& Referencia a la matriz actual.
    */
-  Matrix4 &identity();
+  Matrix4& identity() {
+    a00 = 1.0; a01 = 0.0; a02 = 0.0; a03 = 0.0;
+    a10 = 0.0; a11 = 1.0; a12 = 0.0; a13 = 0.0;
+    a20 = 0.0; a21 = 0.0; a22 = 1.0; a23 = 0.0;
+    a30 = 0.0; a31 = 0.0; a32 = 0.0; a33 = 1.0;
+    return *this;
+  }
 
   /**
    * @brief Multiplica cada componente de una matriz por un escalar.
@@ -696,14 +803,28 @@ public:
    * @param c Escalar por el cual multiplicar la matriz.
    * @return Matrix4 Resultado de la multiplicación por el escalar.
    */
-  static Matrix4 multiplyScalar(const Matrix4 &m1, double c);
+  static Matrix4 multiplyScalar(const Matrix4& m1, double c) {
+    return Matrix4(
+      m1.a00 * c, m1.a01 * c, m1.a02 * c, m1.a03 * c,
+      m1.a10 * c, m1.a11 * c, m1.a12 * c, m1.a13 * c,
+      m1.a20 * c, m1.a21 * c, m1.a22 * c, m1.a23 * c,
+      m1.a30 * c, m1.a31 * c, m1.a32 * c, m1.a33 * c
+    );
+  }
 
   /**
    * @brief Multiplica un vector por la matriz.
    * @param v Vector a multiplicar.
    * @return Vector4 Resultado de la multiplicación del vector por la matriz.
    */
-  Vector4 multiplyVector(const Vector4 &v) const;
+  Vector4 multiplyVector(const Vector4& v) const {
+    return Vector4(
+      a00*v.x + a10*v.y + a20*v.z + a30*v.w,
+      a01*v.x + a11*v.y + a21*v.z + a31*v.w,
+      a02*v.x + a12*v.y + a22*v.z + a32*v.w,
+      a03*v.x + a13*v.y + a23*v.z + a33*v.w
+    );
+  }
 
   /**
    * @brief Establece nuevos valores para los elementos de la matriz.
@@ -725,7 +846,18 @@ public:
    * @param a33 Valor para el elemento (3,3).
    * @return Matrix4& Referencia a la matriz actual.
    */
-  Matrix4 &set();
+  Matrix4& set(
+    double a00, double a01, double a02, double a03,
+    double a10, double a11, double a12, double a13,
+    double a20, double a21, double a22, double a23,
+    double a30, double a31, double a32, double a33
+  ) {
+    this->a00 = a00; this->a01 = a01; this->a02 = a02; this->a03 = a03;
+    this->a10 = a10; this->a11 = a11; this->a12 = a12; this->a13 = a13;
+    this->a20 = a20; this->a21 = a21; this->a22 = a22; this->a23 = a23;
+    this->a30 = a30; this->a31 = a31; this->a32 = a32; this->a33 = a33;
+    return *this;
+  }
 
   /**
    * @brief Devuelve la resta de dos matrices.
@@ -733,13 +865,27 @@ public:
    * @param m2 Segunda matriz.
    * @return Matrix4 Resultado de la resta de m1 y m2.
    */
-  static Matrix4 subtract(const Matrix4 &m1, const Matrix4 &m2);
+  static Matrix4 subtract(const Matrix4& m1, const Matrix4& m2) {
+    return Matrix4(
+      m1.a00 - m2.a00, m1.a01 - m2.a01, m1.a02 - m2.a02, m1.a03 - m2.a03,
+      m1.a10 - m2.a10, m1.a11 - m2.a11, m1.a12 - m2.a12, m1.a13 - m2.a13,
+      m1.a20 - m2.a20, m1.a21 - m2.a21, m1.a22 - m2.a22, m1.a23 - m2.a23,
+      m1.a30 - m2.a30, m1.a31 - m2.a31, m1.a32 - m2.a32, m1.a33 - m2.a33
+    );
+  }
 
   /**
    * @brief Devuelve la transpuesta de la matriz actual.
    * @return Matrix4 Matriz transpuesta.
    */
-  Matrix4 transpose() const;
+  Matrix4 Mtranspose() const {
+    return Matrix4(
+      a00, a10, a20, a30,
+      a01, a11, a21, a31,
+      a02, a12, a22, a32,
+      a03, a13, a23, a33
+    );
+  }
 
   // Métodos estáticos de matrices de transformaciones de cámara
 
