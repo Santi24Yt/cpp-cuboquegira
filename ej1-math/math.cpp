@@ -985,8 +985,12 @@ class Matrix4 {
    */
   static Matrix4 rotateX(double theta)
   {
-
-    return Matrix4();
+    return Matrix4(
+      1, 0, 0, 0,
+      0, std::cos(theta), std::sin(theta), 0,
+      0, std::sin(theta), std::cos(theta), 0,
+      0, 0, 0, 1
+    );
   }
 
   /**
@@ -997,8 +1001,12 @@ class Matrix4 {
    */
   static Matrix4 rotateY(double theta)
   {
-
-    return Matrix4();
+    return Matrix4(
+      std::cos(theta), 0, std::sin(theta), 0,
+      0, 1, 0, 0,
+      std::sin(theta), 0, std::cos(theta), 0,
+      0, 0, 0, 1
+    );
   }
 
   /**
@@ -1007,10 +1015,15 @@ class Matrix4 {
    * @param Vector3 v
    * @return Matrix4 Matriz 4x4 que define la rotación alrededor del eje z.
    */
-  static Matrix4 rotateZ(Vector3 v)
+  // NOTE: Se cambió el vector por un ángulo
+  static Matrix4 rotateZ(double theta)
   {
-
-    return Matrix4();
+    return Matrix4(
+      std::cos(theta), std::sin(theta), 0, 0,
+      -std::sin(theta), std::cos(theta), 0, 0,
+      0, 0, 1, 0,
+      0, 0, 0, 1
+    );
   }
 
   /**
@@ -1023,7 +1036,12 @@ class Matrix4 {
    */
   static Matrix4 scale(double x, double y, double z)
   {
-    return Matrix4();
+    return Matrix4(
+      x, 0, 0, 0,
+      0, y, 0, 0,
+      0, 0, z, 0,
+      0, 0, 0, 1
+    );
   }
 
   /**
@@ -1036,7 +1054,12 @@ class Matrix4 {
    */
   static Matrix4 translate(double x, double y, double z)
   {
-    return Matrix4();
+    return Matrix4(
+      1, 0, 0, 0,
+      0, 1, 0, 0,
+      0, 0, 1, 0,
+      x, y, z, 1
+    );
   }
 };
 
@@ -1171,7 +1194,8 @@ int main()
   cout << "Suma de Vector4: (" << sumVector.x << ", " << sumVector.y << ", " << sumVector.z << ", " << sumVector.w << ")\n";
   cout << "Clon Vector4: (" << clonedVector.x << ", " << clonedVector.y << ", " << clonedVector.z << ", " << clonedVector.w << ")\n";
   cout << "Distancia Vector4: " << distance << "\n";
-  cout << "Prodcuto punto Vector4: " << dotProduct << "\n";
+  // NOTE: Se cambió dotProduct por dotProduct1 que es el de vec4
+  cout << "Prodcuto punto Vector4: " << dotProduct1 << "\n";
   cout << "Approximately Equal: " << (isApproximatelyEqual ? "true" : "false") << "\n";
   cout << "Exactly Equal: " << (isExactlyEqual ? "true" : "false") << "\n";
   cout << "Normalized Vector4: (" << normalizedVector.x << ", " << normalizedVector.y << ", " << normalizedVector.z << ", " << normalizedVector.w << ")\n";

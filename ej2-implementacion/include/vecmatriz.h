@@ -765,6 +765,7 @@ class Matrix4 {
    * @return Matrix4 Matriz 4x4 que define el frustum.
    */
   static Matrix4 frustum(double left, double right, double bottom, double top, double near, double far) {
+
   }
 
   /**
@@ -811,6 +812,12 @@ class Matrix4 {
    * @return Matrix4 Matriz 4x4 que define la rotación alrededor del eje X.
    */
   static Matrix4 rotateX(double theta) {
+    return Matrix4(
+      1, 0, 0, 0,
+      0, std::cos(theta), std::sin(theta), 0,
+      0, std::sin(theta), std::cos(theta), 0,
+      0, 0, 0, 1
+    );
 	}
 
   /**
@@ -820,15 +827,28 @@ class Matrix4 {
    * @return Matrix4 Matriz 4x4 que define la rotación alrededor del eje Y.
    */
   static Matrix4 rotateY(double theta) {
+    return Matrix4(
+      std::cos(theta), 0, std::sin(theta), 0,
+      0, 1, 0, 0,
+      std::sin(theta), 0, std::cos(theta), 0,
+      0, 0, 0, 1
+    );
 	}
 
   /**
-   * @brief Genera una matriz de rotación alrededor del eje X.
+   * @brief Genera una matriz de rotación alrededor del eje Z.
    *
    * @param Vector3 v
    * @return Matrix4 Matriz 4x4 que define la rotación alrededor del eje z.
    */
-  static Matrix4 rotateZ(Vector3 v) {
+  // NOTE: Se cambió el vector por un ángulo
+  static Matrix4 rotateZ(double theta) {
+    return Matrix4(
+      std::cos(theta), std::sin(theta), 0, 0,
+      -std::sin(theta), std::cos(theta), 0, 0,
+      0, 0, 1, 0,
+      0, 0, 0, 1
+    );
 	}
 
   /**
@@ -840,6 +860,12 @@ class Matrix4 {
    * @return Matrix4 Matriz 4x4 que define el escalado.
    */
   static Matrix4 scale(double x, double y, double z) {
+    return Matrix4(
+      x, 0, 0, 0,
+      0, y, 0, 0,
+      0, 0, z, 0,
+      0, 0, 0, 1
+    );
 	}
 
   /**
@@ -851,6 +877,12 @@ class Matrix4 {
    * @return Matrix4 Matriz 4x4 que define la traslación.
    */
   static Matrix4 translate(double x, double y, double z) {
+    return Matrix4(
+      1, 0, 0, 0,
+      0, 1, 0, 0,
+      0, 0, 1, 0,
+      x, y, z, 1
+    );
 	}
 };
 

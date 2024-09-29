@@ -51,7 +51,7 @@ Traslación (5.0, 10.0):
 Suma de Vector4: (6, 8, 10, 12)
 Clon Vector4: (1, 2, 3, 4)
 Distancia Vector4: 8
-Prodcuto punto Vector4: 32
+Prodcuto punto Vector4: 50
 Approximately Equal: false
 Exactly Equal: false
 Normalized Vector4: (0.182574, 0.365148, 0.547723, 0.730297)

@@ -19,6 +19,7 @@ que se usa el formato en el que el vector es fila no columna
                         ⎣a20  a21  a22⎦
 
 También se cambió los -0 por 0, lo cuál no afecta los cálculos
+y en las pruebas el producto punto de vec4 tenía el de vec3
 
 Se puede comparar con los resultados originales usando:
 $ make checkog

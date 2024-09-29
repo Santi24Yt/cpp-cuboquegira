@@ -506,7 +506,8 @@ void pruebas()
   cout << "Suma de Vector4: (" << sumVector.x << ", " << sumVector.y << ", " << sumVector.z << ", " << sumVector.w << ")\n";
   cout << "Clon Vector4: (" << clonedVector.x << ", " << clonedVector.y << ", " << clonedVector.z << ", " << clonedVector.w << ")\n";
   cout << "Distancia Vector4: " << distance << "\n";
-  cout << "Prodcuto punto Vector4: " << dotProduct << "\n";
+  // NOTE: Se cambió dotProduct por dotProduct1 que es el de vec4
+  cout << "Prodcuto punto Vector4: " << dotProduct1 << "\n";
   cout << "Approximately Equal: " << (isApproximatelyEqual ? "true" : "false") << "\n";
   cout << "Exactly Equal: " << (isExactlyEqual ? "true" : "false") << "\n";
   cout << "Normalized Vector4: (" << normalizedVector.x << ", " << normalizedVector.y << ", " << normalizedVector.z << ", " << normalizedVector.w << ")\n";
