@@ -917,4 +917,30 @@ class Matrix4 {
 // Aqui empiezan las pruebas
 void pruebas();
 
+#include <iostream>
+#include <iomanip>
+
+inline std::ostream& operator<<(std::ostream& out, const Vector3& v) {
+  return out << "<" << v.x << ", " << v.y << ", " << v.z << ">";
+}
+
+inline std::ostream& operator<<(std::ostream& out, const Vector4& v) {
+  return out << "<" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ">";
+}
+
+inline std::ostream& operator<<(std::ostream& out, const Matrix3& m) {
+  return out << std::setprecision(4) <<
+    "|" << std::setw(9) << m.a00 << ", " << std::setw(9) << m.a01 << ", " << std::setw(9) << m.a02 << "|\n" <<
+    "|" << std::setw(9) << m.a10 << ", " << std::setw(9) << m.a11 << ", " << std::setw(9) << m.a12 << "|\n" <<
+    "|" << std::setw(9) << m.a20 << ", " << std::setw(9) << m.a21 << ", " << std::setw(9) << m.a22 << "|";
+}
+
+inline std::ostream& operator<<(std::ostream& out, const Matrix4& m) {
+  return out << std::setprecision(4) <<
+    "|" << std::setw(9) << m.a00 << ", " << std::setw(9) << m.a01 << ", " << std::setw(9) << m.a02 << ", " << std::setw(9) << m.a03 << "|\n" << 
+    "|" << std::setw(9) << m.a10 << ", " << std::setw(9) << m.a11 << ", " << std::setw(9) << m.a12 << ", " << std::setw(9) << m.a13 << "|\n" << 
+    "|" << std::setw(9) << m.a20 << ", " << std::setw(9) << m.a21 << ", " << std::setw(9) << m.a22 << ", " << std::setw(9) << m.a23 << "|\n" << 
+    "|" << std::setw(9) << m.a30 << ", " << std::setw(9) << m.a31 << ", " << std::setw(9) << m.a32 << ", " << std::setw(9) << m.a33 << "|";
+}
+
 #endif
