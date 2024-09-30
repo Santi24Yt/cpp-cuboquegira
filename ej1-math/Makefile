@@ -2,7 +2,7 @@ CC = g++
 LIBS =
 INCLUDES =
 # -Wall -Werror
-DFLAGS = -Wall
+DFLAGS = -Wall -Werror
 CFLAGS = -xc++ -std=c++11
 SOURCES = *.cpp
 OUT = math

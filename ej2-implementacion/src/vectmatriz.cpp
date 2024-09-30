@@ -269,7 +269,6 @@ double Matrix4::determinant() const {
          - a03*a10*a21*a32 + a03*a10*a22*a31 + a03*a11*a20*a32 - a03*a11*a22*a30 - a03*a12*a20*a31 + a03*a12*a21*a30;
 }
 
-// TODO: Duplicado??
 /**
   * @brief Multiplica la matriz por un escalar.
   * @param scalar Escalar por el cual multiplicar la matriz.
@@ -327,7 +326,6 @@ Vector4 Matrix4::multiplyVector(const Vector4& v) const {
   );
 }
 
-// TODO: Sin argumentos???
 /**
   * @brief Establece nuevos valores para los elementos de la matriz.
   * @param a00 Valor para el elemento (0,0).

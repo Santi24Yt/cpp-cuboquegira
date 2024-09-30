@@ -1,3 +1,4 @@
 -Wall
+-Werror
 -xc++
 -std=c++11

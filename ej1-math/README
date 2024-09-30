@@ -9,7 +9,8 @@ $ make check
 
 Los resultados que se usan para comparar tienen algunas
 modificaciones, las principales son las matrices de transformación
-que se usa el formato en el que el vector es fila no columna
+que se usa el formato en el que el vector es fila no columna.
+Solo hay que transponer la matriz para obtener el otro modo.
 
 
                         ⎡a00  a01  a02⎤

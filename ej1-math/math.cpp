@@ -930,7 +930,12 @@ class Matrix4 {
    */
   static Matrix4 frustum(double left, double right, double bottom, double top, double near, double far)
   {
-    return Matrix4();
+    return Matrix4(
+      (2*near)/(right-left)     , 0                         , 0                       , 0,
+      0                         , (2*near)/(top-bottom)     , 0                       , 0,
+      0                         , 0                         , -(far+near)/(far-near)  , -1, 
+      -(right+left)/(right-left), -(top+bottom)/(top-bottom), -(2*near*far)/(far-near), 0
+    );
   }
 
   /**
@@ -943,7 +948,16 @@ class Matrix4 {
    */
   static Matrix4 lookAt(const Vector3 &eye, const Vector3 &center, const Vector3 &up)
   {
-    // TODO: Implementar la lógica del método.
+    Vector3 u = Vector3::subtract(eye, center).normalize();
+    Vector3 w = Vector3::cross(u, up).normalize();
+    Vector3 v = Vector3::cross(u, w).normalize();
+    // TODO: Checar si es correcta
+    return Matrix4(
+      u.x, u.y, u.z, 0,
+      v.x, v.y, v.z, 0,
+      w.x, w.y, w.z, 0,
+      eye.x, eye.y, eye.z, 1
+    );
   }
 
   /**
@@ -959,7 +973,12 @@ class Matrix4 {
    */
   static Matrix4 orthographic(double left, double right, double bottom, double top, double near, double far)
   {
-    return Matrix4();
+    return Matrix4(
+      2/(right-left)            , 0                         , 0                     , 0,
+      0                         , 2/(top-bottom)            , 0                     , 0,
+      0                         , 0                         , -2/(near-far)         , 0,
+      -(right+left)/(right-left), -(top+bottom)/(top-bottom), -(near+far)/(near-far), 1
+    );
   }
 
   /**
@@ -973,8 +992,13 @@ class Matrix4 {
    */
   static Matrix4 perspective(double fovy, double aspect, double near, double far)
   {
-
-    return Matrix4();
+    double c = 1/std::tan(fovy/2);
+    return Matrix4(
+      c/aspect, 0, 0                       , 0 ,
+      0       , c, 0                       , 0 ,
+      0       , 0, -(far+near)/(far-near)  , -1,
+      0       , 0, -(2*near*far)/(far-near), 0
+    );
   }
 
   /**
