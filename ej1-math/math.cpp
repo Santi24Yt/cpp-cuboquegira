@@ -31,7 +31,7 @@ class Vector3 {
    * @return Vector resultante de la suma.
    */
   static Vector3 add(const Vector3& u, const Vector3& v) {
-    return Vector3(u.x + v.y, u.y + v.y, u.z + v.z);
+    return Vector3(u.x + v.x, u.y + v.y, u.z + v.z);
   }
 
   /**
@@ -992,6 +992,7 @@ class Matrix4 {
    */
   static Matrix4 perspective(double fovy, double aspect, double near, double far)
   {
+    fovy = (fovy*M_PI)/180.0;
     double c = 1/std::tan(fovy/2);
     return Matrix4(
       c/aspect, 0, 0                       , 0 ,
