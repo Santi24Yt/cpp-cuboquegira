@@ -5,8 +5,13 @@
 
 using namespace std;
 
+int test();
+
 int main() {
-  Imagen<1270, 680> img1;
+
+  return test();
+
+  Imagen<800, 800> img1;
 
   Vector4 cubo[8] = {
     {1, 1, 1, 1},
@@ -21,11 +26,12 @@ int main() {
   
   /* V * Modelo * Vista * Proyección */
 
-  Vector3 cam(3, 0, 0);
+  Vector3 cam(4, 0, 0);
   Vector3 centroCubo(0, 0, 0);
 
   Matrix4 look = Matrix4::lookAt(cam, centroCubo, Vector3(0, 1, 0));
-  Matrix4 persp = Matrix4::perspective(70, 1270.0/680.0, 1, 4);
+  Matrix4 persp = Matrix4::perspective(45, 1270.0/680.0, 1, 100);
+  // Matrix4 orth = Matrix4::orthographic(2, -2, -2, 2, -2, 2);
 
   for (int i = 0; i < 8; i++) {
     cubo[i] = look.multiplyVector(cubo[i]);
@@ -35,6 +41,7 @@ int main() {
   cout << "----" << endl;
 
   for (int i = 0; i < 8; i++) {
+    // cubo[i] = orth.multiplyVector(cubo[i]);
     cubo[i] = persp.multiplyVector(cubo[i]);
     cout << cubo[i] << endl;
   }
@@ -42,8 +49,13 @@ int main() {
   cout << "-----" << endl;
 
   for (int i = 0; i < 8; i++) {
-    int x = (cubo[i].x + 1)/2 * 1270;
-    int y = (cubo[i].y + 1)/2 * 680;
+    int x = (cubo[i].x + 1)/2 * 800;
+    int y = (cubo[i].y + 1)/2 * 800;
+    // if (i > 1) {
+    //   int x2 = (cubo[i-1].x + 1)/2 * 800;
+    //   int y2 = (cubo[i-1].y + 1)/2 * 800;
+    //   img1.bresenham({x, y}, {x2, y2}, 0xFF0000FF);
+    // }
     img1.putPixel(x, y, 0x00FF00FF);
     cout << "x: " << x << " y: " << y << endl;
   }
