@@ -31,7 +31,7 @@ class Vector3 {
    * @return Vector resultante de la suma.
    */
   static Vector3 add(const Vector3& u, const Vector3& v) {
-    return Vector3(u.x + v.y, u.y + v.y, u.z + v.z);
+    return Vector3(u.x + v.x, u.y + v.y, u.z + v.z);
   }
 
   /**
@@ -55,7 +55,7 @@ class Vector3 {
    */
   static Vector3 cross(const Vector3& u, const Vector3& v) {
     return Vector3(
-      (u.x * v.z) - (u.z * v.y),
+      (u.y * v.z) - (u.z * v.y),
       (u.z * v.x) - (u.x * v.z),
       (u.x * v.y) - (u.y * v.x)
     );
@@ -785,12 +785,12 @@ class Matrix4 {
     Vector3 u = Vector3::subtract(eye, center).normalize();
     Vector3 w = Vector3::cross(u, up).normalize();
     Vector3 v = Vector3::cross(u, w).normalize();
-    // TODO: Checar si es correcta
+    // TODO: Checar si es correcta 2/3
     return Matrix4(
-      u.x, u.y, u.z, 0,
-      v.x, v.y, v.z, 0,
-      w.x, w.y, w.z, 0,
-      eye.x, eye.y, eye.z, 1
+      u.x, v.x, w.x, eye.x,
+      u.y, v.y, w.y, eye.y,
+      u.z, v.z, w.z, eye.z,
+      0, 0, 0, 1
     );
   }
 
@@ -824,6 +824,7 @@ class Matrix4 {
    * @return Matrix4 Matriz 4x4 que define la proyección de perspectiva.
    */
   static Matrix4 perspective(double fovy, double aspect, double near, double far) {
+    fovy = (fovy*M_PI)/180.0;
     double c = 1/std::tan(fovy/2);
     return Matrix4(
       c/aspect, 0, 0                       , 0 ,
