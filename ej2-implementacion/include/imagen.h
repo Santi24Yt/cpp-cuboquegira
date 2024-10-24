@@ -84,100 +84,83 @@ class Imagen {
     return fillrectc(x, y, size, size, c);
   }
 
-  // vector<Point> _bresenhamH(Point pi, Point pf) {
-  //   vector<Point> pts;
-  //
-  //   if (pi.x > pf.x) {
-  //     Point t = pi;
-  //     pi = pf;
-  //     pf = t;
-  //   }
-  //   
-  //   int dx = pf.x - pi.x;
-  //   int dy = pf.y - pi.y;
-  //   int dir = 1;
-  //   if (dy < 0)
-  //     dir = -1;
-  //   dy *= dir;
-  //
-  //   int D = 2*dy - dx;
-  //
-  //   int y = pi.y;
-  //   int x;
-  //
-  //   for (int i = 0; i <= dx; i++) {
-  //     x = pi.x + i;
-  //     Point pr;
-  //     pr.x = x;
-  //     pr.y = y;
-  //     pts.push_back(pr);
-  //
-  //     if (D >= 0) {
-  //       y += dir;
-  //       D = D - 2*dx;
-  //     }
-  //     D = D + 2*dy;
-  //   }
-  //
-  //   return pts;
-  // }
-  //
-  // vector<Point> _bresenhamV(Point pi, Point pf) {
-  //   vector<Point> pts;
-  //
-  //   if (pi.y > pf.y) {
-  //     Point t = pi;
-  //     pi = pf;
-  //     pf = t;
-  //   }
-  //   
-  //   int dx = pf.x - pi.x;
-  //   int dy = pf.y - pi.y;
-  //   int dir = 1;
-  //   if (dx < 0)
-  //     dir = -1;
-  //   dx *= dir;
-  //
-  //   int D = 2*dx - dy;
-  //
-  //   int y;
-  //   int x = pi.x;
-  //
-  //   for (int i = 0; i <= dy; i++) {
-  //     y = pi.y + i;
-  //     Point pr;
-  //     pr.x = x;
-  //     pr.y = y;
-  //     pts.push_back(pr);
-  //
-  //     if (D >= 0) {
-  //       x += dir;
-  //       D = D - 2*dy;
-  //     }
-  //     D = D + 2*dx;
-  //   }
-  //
-  //   return pts;
-  // }
-  //
-  // double absd(double n) {
-  //   if (n >= 0) {
-  //     return n;
-  //   } else {
-  //     return -n;
-  //   }
-  // }
-  //
-  // vector<Point> bresenham(Point pi, Point pf) {
-  //   vector<Point> pts;
-  //   if (absd(pf.x - pi.x) > absd(pf.y - pi.y)) {
-  //     pts = _bresenhamH(pi, pf);
-  //   } else {
-  //     pts = _bresenhamV(pi, pf);
-  //   }
-  //
-  //   return pts;
-  // }
+  void _bresenhamH(Punto pi, Punto pf, int c) {
+    if (pi.x > pf.x) {
+      Punto t = pi;
+      pi = pf;
+      pf = t;
+    }
+    
+    int dx = pf.x - pi.x;
+    int dy = pf.y - pi.y;
+    int dir = 1;
+    if (dy < 0)
+      dir = -1;
+    dy *= dir;
+
+    int D = 2*dy - dx;
+
+    int y = pi.y;
+    int x;
+
+    for (int i = 0; i <= dx; i++) {
+      x = pi.x + i;
+      image[y][x] = c;
+
+      if (D >= 0) {
+        y += dir;
+        D = D - 2*dx;
+      }
+      D = D + 2*dy;
+    }
+  }
+
+  void _bresenhamV(Punto pi, Punto pf, int c) {
+    if (pi.y > pf.y) {
+      Punto t = pi;
+      pi = pf;
+      pf = t;
+    }
+    
+    int dx = pf.x - pi.x;
+    int dy = pf.y - pi.y;
+    int dir = 1;
+    if (dx < 0)
+      dir = -1;
+    dx *= dir;
+
+    int D = 2*dx - dy;
+
+    int y;
+    int x = pi.x;
+
+    for (int i = 0; i <= dy; i++) {
+      y = pi.y + i;
+      image[y][x] = c;
+
+      if (D >= 0) {
+        x += dir;
+        D = D - 2*dy;
+      }
+      D = D + 2*dx;
+    }
+  }
+
+  double absd(double n) {
+    if (n >= 0) {
+      return n;
+    } else {
+      return -n;
+    }
+  }
+
+  void bresenham(Punto pi, Punto pf, int c) {
+    if (absd(pf.x - pi.x) > absd(pf.y - pi.y)) {
+      _bresenhamH(pi, pf, c);
+    } else {
+      _bresenhamV(pi, pf, c);
+    }
+  }
 
 
   private:
