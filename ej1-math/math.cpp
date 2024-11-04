@@ -474,7 +474,7 @@ class Matrix3 {
       return Matrix3();
     }
 
-    return Matrix3::multiplyScalar(adjoint(), 1/det);
+    return Matrix3::multiplyScalar(adjoint(), 1.0/det);
   }
 
   /**
@@ -810,7 +810,7 @@ class Matrix4 {
       return Matrix4();
     }
 
-    return Matrix4::multiplyScalar(adjoint(), 1/det);
+    return Matrix4::multiplyScalar(adjoint(), 1.0/det);
   }
 
   /**
@@ -974,9 +974,9 @@ class Matrix4 {
   static Matrix4 orthographic(double left, double right, double bottom, double top, double near, double far)
   {
     return Matrix4(
-      2/(right-left)            , 0                         , 0                     , 0,
-      0                         , 2/(top-bottom)            , 0                     , 0,
-      0                         , 0                         , -2/(near-far)         , 0,
+      2.0/(right-left)            , 0                         , 0                     , 0,
+      0                         , 2.0/(top-bottom)            , 0                     , 0,
+      0                         , 0                         , -2.0/(near-far)         , 0,
       -(right+left)/(right-left), -(top+bottom)/(top-bottom), -(near+far)/(near-far), 1
     );
   }
@@ -993,7 +993,7 @@ class Matrix4 {
   static Matrix4 perspective(double fovy, double aspect, double near, double far)
   {
     fovy = (fovy*M_PI)/180.0;
-    double c = 1/std::tan(fovy/2);
+    double c = 1.0/std::tan(fovy/2);
     return Matrix4(
       c/aspect, 0, 0                       , 0 ,
       0       , c, 0                       , 0 ,
