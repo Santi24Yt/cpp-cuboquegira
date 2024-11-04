@@ -9,8 +9,12 @@ int test() {
 
   // NOTE: Se corrigió el producto cruz, había error en eso, por lo tanto
   // también el el lookAt
+  // NOTE: Estaba mal el lookat, algunos vectores van en un lugar distinto
+  // (el acomodo de la matriz)
 
-  glm::vec3 eye(4, 0, 2);
+  cout << endl << "----- LookAt " << endl;
+
+  glm::vec3 eye(4, 2, 2);
   glm::vec3 center(0, 0, 0);
   glm::vec3 up(0, 1, 0);
   glm::mat4 look = glm::lookAt(eye, center, up);
@@ -24,14 +28,25 @@ int test() {
     cout << endl;
   }
 
-  Vector3 cam(4, 0, 2);
+  glm::mat4 lookt = glm::transpose(look);
+  cout << "transpuesta" << endl;
+  for (int i = 0; i < 4; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      cout << lookt[j][i] << " ";
+    }
+    cout << endl;
+  }
+
+  Vector3 cam(4, 2, 2);
   Vector3 centroCubo(0, 0, 0);
 
   Matrix4 look2 = Matrix4::lookAt(cam, centroCubo, Vector3(0, 1, 0));
 
   cout << look2 << endl;
 
-  if (true) {
+  if (false) {
   
   glm::vec3 f = glm::normalize(center - eye);
   cout << "glm f/u (center - eye) = <" << f[0] << ", " << f[1] << ", " << f[2] << ">" << endl;
@@ -55,15 +70,15 @@ int test() {
   // Son totalmente distintos (ya no, signos opuestos)
   }
 
-  cout << "---- Usando mismos signos" << endl;
 
-  if (true) {
+  if (false) {
+  cout << "---- Usando mismos signos" << endl;
   
   glm::vec3 f = glm::normalize(center - eye);
   cout << "glm f/u (center - eye) = <" << f[0] << ", " << f[1] << ", " << f[2] << ">" << endl;
 
   Vector3 u = Vector3::subtract(centroCubo, cam).normalize();
-  cout << "vecmatriz f/u (eye - center) = " << u << endl;
+  cout << "vecmatriz f/u (center - eye) = " << u << endl;
   // Correcto (solo símbolos opuestos)
 
   glm::vec3 s(normalize(cross(f, up)));
@@ -76,10 +91,55 @@ int test() {
   glm::vec3 u2(cross(s, f));
   cout << "glm u/v (s/w x f/u) = <" << u2[0] << ", " << u2[1] << ", " << u2[2] << ">" << endl;
 
-  Vector3 v = Vector3::cross(u, w).normalize();
+  Vector3 v = Vector3::cross(w, u).normalize();
   cout << "vecmatriz u/v (s/w x f/u) = " << v << endl;
   // Son totalmente distintos (ya no, son signos opuestos)
   }
 
+  cout << endl << endl << "---- Perspectiva " << endl;
+
+
+  glm::mat4 pers = glm::perspective(M_PI/3.0, 1000.0/800.0, 1.0, 8.0);
+
+  for (int i = 0; i < 4; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      cout << pers[j][i] << " ";
+    }
+    cout << endl;
+  }
+
+  Matrix4 persp = Matrix4::perspective(60, 1000.0/800.0, 1, 8);
+  cout << persp << endl;
+
+  cout << endl << endl << "----- Todo " << endl;
+
+  glm::vec4 cubo[8] = {
+    glm::vec4(1.0, 1.0, 1.0, 1.0),
+    glm::vec4(1.0, 1.0, -1.0, 1.0),
+    glm::vec4(1.0, -1.0, 1.0, 1.0),
+    glm::vec4(1.0, -1.0, -1.0, 1.0),
+    glm::vec4(-1.0, 1.0, 1.0, 1.0),
+    glm::vec4(-1.0, 1.0, -1.0, 1.0),
+    glm::vec4(-1.0, -1.0, 1.0, 1.0),
+    glm::vec4(-1.0, -1.0, -1.0, 1.0)
+  };
+
+  for (int i = 0; i < 8; i++) {
+    cubo[i] = look * cubo[i];
+    cout << "<" << cubo[i][0] << ", " << cubo[i][1] << ", " << cubo[i][2] << ", " << cubo[i][3] << ">" << endl;
+  }
+  
+  cout << "----" << endl;
+
+  for (int i = 0; i < 8; i++) {
+    cubo[i] = pers * cubo[i];
+    cout << "<" << cubo[i][0] << ", " << cubo[i][1] << ", " << cubo[i][2] << ", " << cubo[i][3] << ">" << endl;
+  }
+
+  cout << "----" << endl;
+
+  cout << endl << "--- Fin test " << endl;
   return 0;
 }
