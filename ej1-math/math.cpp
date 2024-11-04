@@ -62,7 +62,7 @@ class Vector3 {
    */
   static Vector3 cross(const Vector3& u, const Vector3& v) {
     return Vector3(
-      (u.x * v.z) - (u.z * v.y),
+      (u.y * v.z) - (u.z * v.y),
       (u.z * v.x) - (u.x * v.z),
       (u.x * v.y) - (u.y * v.x)
     );
@@ -948,15 +948,15 @@ class Matrix4 {
    */
   static Matrix4 lookAt(const Vector3 &eye, const Vector3 &center, const Vector3 &up)
   {
-    Vector3 u = Vector3::subtract(eye, center).normalize();
-    Vector3 w = Vector3::cross(u, up).normalize();
-    Vector3 v = Vector3::cross(u, w).normalize();
-    // TODO: Checar si es correcta
+    Vector3 fw = Vector3::subtract(eye, center).normalize();
+    Vector3 r = Vector3::cross(up, fw).normalize();
+    Vector3 vr = Vector3::cross(fw, r).normalize();
+    // NOTE: ver: https://stackoverflow.com/questions/349050/calculating-a-lookat-matrix 
     return Matrix4(
-      u.x, u.y, u.z, 0,
-      v.x, v.y, v.z, 0,
-      w.x, w.y, w.z, 0,
-      eye.x, eye.y, eye.z, 1
+      r.x, vr.x, fw.x, 0,
+      r.y, vr.y, fw.y, 0,
+      r.z, vr.z, fw.z, 0,
+      -Vector3::dot(r, eye), -Vector3::dot(vr, eye), -Vector3::dot(fw, eye), 1
     );
   }
 
@@ -1013,7 +1013,7 @@ class Matrix4 {
     return Matrix4(
       1, 0, 0, 0,
       0, std::cos(theta), std::sin(theta), 0,
-      0, std::sin(theta), std::cos(theta), 0,
+      0, -std::sin(theta), std::cos(theta), 0,
       0, 0, 0, 1
     );
   }
@@ -1027,7 +1027,7 @@ class Matrix4 {
   static Matrix4 rotateY(double theta)
   {
     return Matrix4(
-      std::cos(theta), 0, std::sin(theta), 0,
+      std::cos(theta), 0, -std::sin(theta), 0,
       0, 1, 0, 0,
       std::sin(theta), 0, std::cos(theta), 0,
       0, 0, 0, 1
