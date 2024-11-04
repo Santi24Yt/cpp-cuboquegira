@@ -165,7 +165,7 @@ Matrix3 Matrix3::invert() const {
     return Matrix3();
   }
 
-  return Matrix3::multiplyScalar(adjoint(), 1/det);
+  return Matrix3::multiplyScalar(adjoint(), 1.0/det);
 }
 
 /**
@@ -297,7 +297,7 @@ Matrix4 Matrix4::invert() const {
     return Matrix4();
   }
 
-  return Matrix4::multiplyScalar(adjoint(), 1/det);
+  return Matrix4::multiplyScalar(adjoint(), 1.0/det);
 }
 
 /**
