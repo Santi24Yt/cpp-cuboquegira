@@ -84,6 +84,10 @@ class Imagen {
     return fillrectc(x, y, size, size, c);
   }
 
+  void clear() {
+    fill(0x000000FF);
+  }
+
   void _bresenhamH(Punto pi, Punto pf, int c) {
     if (pi.x > pf.x) {
       Punto t = pi;
@@ -105,7 +109,8 @@ class Imagen {
 
     for (int i = 0; i <= dx; i++) {
       x = pi.x + i;
-      image[y][x] = c;
+      putPixel(x, y, c);
+      // image[y][x] = c;
 
       if (D >= 0) {
         y += dir;
@@ -136,7 +141,8 @@ class Imagen {
 
     for (int i = 0; i <= dy; i++) {
       y = pi.y + i;
-      image[y][x] = c;
+      putPixel(x, y, c);
+      // image[y][x] = c;
 
       if (D >= 0) {
         x += dir;
