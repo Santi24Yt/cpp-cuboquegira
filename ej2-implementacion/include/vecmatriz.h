@@ -782,15 +782,15 @@ class Matrix4 {
    * @return Matrix4 Matriz 4x4 que define la vista.
    */
   static Matrix4 lookAt(const Vector3& eye, const Vector3& center, const Vector3& up) {
-    Vector3 u = Vector3::subtract(eye, center).normalize();
-    Vector3 w = Vector3::cross(u, up).normalize();
-    Vector3 v = Vector3::cross(u, w).normalize();
-    // TODO: Checar si es correcta 2/3
+    Vector3 fw = Vector3::subtract(eye, center).normalize();
+    Vector3 r = Vector3::cross(fw, up).normalize();
+    Vector3 vr = Vector3::cross(fw, r).normalize();
+    // NOTE: ver: https://stackoverflow.com/questions/349050/calculating-a-lookat-matrix 
     return Matrix4(
-      u.x, v.x, w.x, eye.x,
-      u.y, v.y, w.y, eye.y,
-      u.z, v.z, w.z, eye.z,
-      0, 0, 0, 1
+      r.x, vr.x, fw.x, 0,
+      r.y, vr.y, fw.y, 0,
+      r.z, vr.z, fw.z, 0,
+      -Vector3::dot(r, eye), -Vector3::dot(vr, eye), -Vector3::dot(fw, eye), 1
     );
   }
 
@@ -807,9 +807,9 @@ class Matrix4 {
    */
   static Matrix4 orthographic(double left, double right, double bottom, double top, double near, double far) {
     return Matrix4(
-      2/(right-left)            , 0                         , 0                     , 0,
-      0                         , 2/(top-bottom)            , 0                     , 0,
-      0                         , 0                         , -2/(near-far)         , 0,
+      2.0/(right-left)            , 0                         , 0                     , 0,
+      0                         , 2.0/(top-bottom)            , 0                     , 0,
+      0                         , 0                         , -2.0/(near-far)         , 0,
       -(right+left)/(right-left), -(top+bottom)/(top-bottom), -(near+far)/(near-far), 1
     );
   }
@@ -825,7 +825,7 @@ class Matrix4 {
    */
   static Matrix4 perspective(double fovy, double aspect, double near, double far) {
     fovy = (fovy*M_PI)/180.0;
-    double c = 1/std::tan(fovy/2);
+    double c = 1.0/std::tan(fovy/2);
     return Matrix4(
       c/aspect, 0, 0                       , 0 ,
       0       , c, 0                       , 0 ,
@@ -844,7 +844,7 @@ class Matrix4 {
     return Matrix4(
       1, 0, 0, 0,
       0, std::cos(theta), std::sin(theta), 0,
-      0, std::sin(theta), std::cos(theta), 0,
+      0, -std::sin(theta), std::cos(theta), 0,
       0, 0, 0, 1
     );
 	}
@@ -857,7 +857,7 @@ class Matrix4 {
    */
   static Matrix4 rotateY(double theta) {
     return Matrix4(
-      std::cos(theta), 0, std::sin(theta), 0,
+      std::cos(theta), 0, -std::sin(theta), 0,
       0, 1, 0, 0,
       std::sin(theta), 0, std::cos(theta), 0,
       0, 0, 0, 1
