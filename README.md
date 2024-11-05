@@ -20,3 +20,7 @@ Utiliza el algoritmo de las líneas de Bresenham para unir los vértices del cub
 
 Ver: `ej2-implementación/README`
 
+
+
+https://github.com/user-attachments/assets/060c538b-19e5-40c9-a09c-fc725e717bdf
+
